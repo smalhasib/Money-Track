@@ -1,50 +1,59 @@
 package com.hasib.moneytrack.screens.records
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.hasib.moneytrack.ui.theme.MoneyTrackTheme
+import androidx.compose.ui.unit.dp
+import com.hasib.moneytrack.data.AppData
+import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecordsScreen() {
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {}
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add Record"
-                )
-            }
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = TopAppBarDefaults.TopAppBarExpandedHeight,
+            ),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        SummeryBox()
+        Spacer(modifier = Modifier.height(16.dp))
+        LazyColumn {
+            items(AppData.transactions.groupBy { it.dateTime.toLocalDate() }
+                .toList()) { (date, transactions) ->
                 Text(
-                    text = "Records Page",
-                    style = MaterialTheme.typography.titleMedium
+                    text = date.format(DateTimeFormatter.ofPattern("MMM dd, EEEE")),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(start = 8.dp)
                 )
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+                transactions.forEach { transaction ->
+                    TransactionItem(transaction = transaction)
+                    if (transaction != transactions.last()) {
+                        HorizontalDivider(
+                            modifier = Modifier.padding(start = 80.dp, end = 8.dp)
+                        )
+                    }
+                }
             }
         }
     }
@@ -53,7 +62,5 @@ fun RecordsScreen() {
 @Preview(showBackground = true)
 @Composable
 fun RecordsPagePreview() {
-    MoneyTrackTheme {
-        RecordsScreen()
-    }
+    RecordsScreen()
 }
