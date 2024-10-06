@@ -25,12 +25,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun AppDrawer(drawerState: DrawerState, navController: NavController) {
     val drawerItems = listOf(
-        DrawerNavigation.Preferences,
-        DrawerNavigation.ExportRecords,
-        DrawerNavigation.DeleteAndReset,
-        DrawerNavigation.LikeMoneyTrack,
-        DrawerNavigation.Help,
-        DrawerNavigation.Feedback
+        MainNavigation.Preferences,
+        MainNavigation.ExportRecords,
+        MainNavigation.DeleteAndReset,
+        MainNavigation.LikeMoneyTrack,
+        MainNavigation.Help,
+        MainNavigation.Feedback
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination

@@ -8,20 +8,25 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.hasib.moneytrack.screens.main.MainNavigation
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DashboardScreen(
     drawerState: DrawerState,
+    parentNavController: NavController
 ) {
     val navController = rememberNavController()
     Scaffold(
-        topBar = { AppBar(drawerState = drawerState) },
+        topBar = { DashboardAppBar(drawerState = drawerState) },
         bottomBar = { BottomBar(navController = navController) },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {}
+                onClick = {
+                    parentNavController.navigate(MainNavigation.AddRecord.route)
+                }
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,

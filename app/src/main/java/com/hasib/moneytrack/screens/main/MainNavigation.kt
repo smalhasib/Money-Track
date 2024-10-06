@@ -17,55 +17,60 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class DrawerNavigation(
+sealed class MainNavigation(
     val title: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector,
+    val selectedIcon: ImageVector = Icons.Filled.Dashboard,
+    val unselectedIcon: ImageVector = Icons.Outlined.Dashboard,
     val route: String
 ) {
-    data object Dashboard : DrawerNavigation(
+    data object Dashboard : MainNavigation(
         title = "Dashboard",
         selectedIcon = Icons.Filled.Dashboard,
         unselectedIcon = Icons.Outlined.Dashboard,
         "dashboard"
     )
 
-    data object Preferences : DrawerNavigation(
+    data object AddRecord : MainNavigation(
+        title = "Add Record",
+        route = "add-record"
+    )
+
+    data object Preferences : MainNavigation(
         title = "Preferences",
         selectedIcon = Icons.Filled.Settings,
         unselectedIcon = Icons.Outlined.Settings,
         "preferences"
     )
 
-    data object ExportRecords : DrawerNavigation(
+    data object ExportRecords : MainNavigation(
         title = "Export records",
         selectedIcon = Icons.Filled.ImportExport,
         unselectedIcon = Icons.Outlined.ImportExport,
         "export-records"
     )
 
-    data object DeleteAndReset : DrawerNavigation(
+    data object DeleteAndReset : MainNavigation(
         title = "Delete & Reset",
         selectedIcon = Icons.Filled.Delete,
         unselectedIcon = Icons.Outlined.Delete,
         "delete-reset"
     )
 
-    data object LikeMoneyTrack : DrawerNavigation(
+    data object LikeMoneyTrack : MainNavigation(
         title = "Like MoneyTrack",
         selectedIcon = Icons.Filled.ThumbUp,
         unselectedIcon = Icons.Outlined.ThumbUp,
         "like-moneytrack"
     )
 
-    data object Help : DrawerNavigation(
+    data object Help : MainNavigation(
         title = "Help",
         selectedIcon = Icons.AutoMirrored.Filled.Help,
         unselectedIcon = Icons.AutoMirrored.Outlined.Help,
         "help"
     )
 
-    data object Feedback : DrawerNavigation(
+    data object Feedback : MainNavigation(
         title = "Feedback",
         selectedIcon = Icons.Filled.Feedback,
         unselectedIcon = Icons.Outlined.Feedback,

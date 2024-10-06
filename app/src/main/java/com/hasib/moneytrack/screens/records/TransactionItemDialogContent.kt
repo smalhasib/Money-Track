@@ -172,7 +172,7 @@ fun TransactionItemDialogContent(
                     Spacer(modifier = Modifier.width(8.dp))
                     SubtitleItem(
                         subtitle = account,
-                        icon = R.drawable.bank
+                        icon = R.drawable.account_bank
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
@@ -188,7 +188,7 @@ fun TransactionItemDialogContent(
                     Spacer(modifier = Modifier.width(8.dp))
                     SubtitleItem(
                         subtitle = category,
-                        icon = R.drawable.expenses
+                        icon = R.drawable.account_expenses
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))

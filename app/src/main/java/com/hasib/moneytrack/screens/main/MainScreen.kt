@@ -32,7 +32,7 @@ fun MainScreen() {
             },
             drawerState = drawerState
         ) {
-            DrawerNavGraph(
+            MainNavGraph(
                 drawerState = drawerState,
                 navController = navController
             )

@@ -80,7 +80,7 @@ fun TransactionItem(transaction: Transaction) {
                 .padding(start = 8.dp)
                 .clickable { showDialog = true },
             colors = ListItemDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                containerColor = MaterialTheme.colorScheme.background
             ),
             headlineContent = {
                 Text(
@@ -90,7 +90,7 @@ fun TransactionItem(transaction: Transaction) {
             },
             leadingContent = {
                 Image(
-                    painter = painterResource(R.drawable.expenses),
+                    painter = painterResource(R.drawable.account_expenses),
                     contentDescription = title,
                     modifier = Modifier.size(32.dp),
                     contentScale = ContentScale.Fit
@@ -101,7 +101,7 @@ fun TransactionItem(transaction: Transaction) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        SubtitleItem(transaction.fromAccount.name, R.drawable.bank)
+                        SubtitleItem(transaction.fromAccount.name, R.drawable.account_bank)
                         Spacer(modifier = Modifier.width(8.dp))
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowForward,
@@ -110,10 +110,10 @@ fun TransactionItem(transaction: Transaction) {
                             modifier = Modifier.size(16.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        SubtitleItem(transaction.toAccount.name, R.drawable.cash)
+                        SubtitleItem(transaction.toAccount.name, R.drawable.account_cash)
                     }
                 } else {
-                    SubtitleItem(subtitle, R.drawable.bank)
+                    SubtitleItem(subtitle, R.drawable.account_bank)
                 }
             },
             trailingContent = {
