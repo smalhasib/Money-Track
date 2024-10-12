@@ -39,11 +39,13 @@ fun NoteInputBox(
         value = value,
         onValueChange = onValueChange,
         modifier = Modifier.fillMaxWidth(),
-        textStyle = MaterialTheme.typography.titleLarge,
+        textStyle = MaterialTheme.typography.titleLarge.copy(
+            color = MaterialTheme.colorScheme.onSurface
+        ),
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier
-                    .height((configuration.screenHeightDp * 0.2).dp)
+                    .height((configuration.screenHeightDp * 0.15).dp)
                     .fillMaxWidth()
                     .border(
                         width = 2.dp,

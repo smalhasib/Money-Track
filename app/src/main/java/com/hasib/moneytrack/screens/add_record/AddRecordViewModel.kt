@@ -22,6 +22,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import timber.log.Timber
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,6 +39,9 @@ class AddRecordViewModel @Inject constructor(
     )
     val uiState: StateFlow<AddRecordUiState> = _uiState.asStateFlow()
 
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> = _error.asStateFlow()
+
     private var isPreviousResult = false
 
     fun setTransactionType(type: TransactionType) {
@@ -43,6 +50,46 @@ class AddRecordViewModel @Inject constructor(
 
     fun setFromAccount(account: Account) {
         _uiState.update { it.copy(fromAccount = account) }
+    }
+
+    fun setToAccount(account: Account) {
+        _uiState.update { it.copy(toAccount = account) }
+    }
+
+    fun setCategory(category: Category) {
+        _uiState.update { it.copy(category = category) }
+    }
+
+    fun setDate(date: LocalDate) {
+        _uiState.update { it.copy(dateTime = LocalDateTime.of(date, it.dateTime.toLocalTime())) }
+    }
+
+    fun setTime(time: LocalTime) {
+        _uiState.update { it.copy(dateTime = LocalDateTime.of(it.dateTime.toLocalDate(), time)) }
+    }
+
+    fun saveData(): Boolean {
+        if (!validated()) {
+            return false
+        }
+        Timber.d(_uiState.value.toString())
+        return true
+    }
+
+    private fun validated(): Boolean {
+        return when {
+            _uiState.value.category == null -> {
+                _error.value = "Please select a category"
+                false
+            }
+
+            _uiState.value.expression.isEmpty() -> {
+                _error.value = "Please enter a valid amount"
+                false
+            }
+
+            else -> true
+        }
     }
 
     fun handleClick(label: String) {
@@ -129,4 +176,5 @@ data class AddRecordUiState(
     val fromAccount: Account,
     val category: Category? = null,
     val toAccount: Account? = null,
+    val dateTime: LocalDateTime = LocalDateTime.now()
 )

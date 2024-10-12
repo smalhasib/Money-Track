@@ -11,44 +11,48 @@ import java.time.LocalDateTime
 
 object AppData {
     val accounts = listOf(
-        Account(name = "Cash", initialBalance = 1000.0, iconIndex = 0),
-        Account(name = "Bank", initialBalance = 5000.0, iconIndex = 2),
-        Account(name = "Credit Card", initialBalance = 2000.0, iconIndex = 5),
+        Account(name = "Cash", initialBalance = 1000.0, imageId = R.drawable.account_cash),
+        Account(name = "Bank", initialBalance = 5000.0, imageId = R.drawable.account_bank),
+        Account(
+            name = "Credit Card",
+            initialBalance = 2000.0,
+            imageId = R.drawable.account_credit_card
+        ),
     )
 
     val incomeCategories = listOf(
-        Category("Salary", CategoryType.INCOME),
-        Category("Sale", CategoryType.INCOME),
-        Category("Rental", CategoryType.INCOME),
-        Category("Awards", CategoryType.INCOME),
-        Category("Coupons", CategoryType.INCOME),
-        Category("Grants", CategoryType.INCOME),
-        Category("Lottery", CategoryType.INCOME),
-        Category("Refunds", CategoryType.INCOME),
+        Category("Salary", CategoryType.INCOME, R.drawable.income_salary),
+        Category("Rental", CategoryType.INCOME, R.drawable.income_rental),
+        Category("Awards", CategoryType.INCOME, R.drawable.income_awards),
+        Category("Coupons", CategoryType.INCOME, R.drawable.income_coupons),
+        Category("Grants", CategoryType.INCOME, R.drawable.income_grants),
+        Category("Lottery", CategoryType.INCOME, R.drawable.income_lottery),
+        Category("Refunds", CategoryType.INCOME, R.drawable.income_refunds),
+        Category("Sale", CategoryType.INCOME, R.drawable.income_sale),
     )
 
     val expenseCategories = listOf(
-        Category("Food", CategoryType.EXPENSE),
-        Category("Transport", CategoryType.EXPENSE),
-        Category("Shopping", CategoryType.EXPENSE),
-        Category("Rent", CategoryType.EXPENSE),
-        Category("Bills", CategoryType.EXPENSE),
-        Category("Health", CategoryType.EXPENSE),
-        Category("Entertainment", CategoryType.EXPENSE),
-        Category("Education", CategoryType.EXPENSE),
-        Category("Gifts", CategoryType.EXPENSE),
-        Category("Investment", CategoryType.EXPENSE),
-        Category("Telephone", CategoryType.EXPENSE),
-        Category("Tax", CategoryType.EXPENSE),
-        Category("Sport", CategoryType.EXPENSE),
-        Category("Social", CategoryType.EXPENSE),
-        Category("Insurance", CategoryType.EXPENSE),
-        Category("Electronics", CategoryType.EXPENSE),
-        Category("Clothing", CategoryType.EXPENSE),
-        Category("Car", CategoryType.EXPENSE),
-        Category("Beauty", CategoryType.EXPENSE),
-        Category("Baby", CategoryType.EXPENSE),
-        Category("Others", CategoryType.EXPENSE),
+        Category("Food", CategoryType.EXPENSE, R.drawable.expense_food),
+        Category("Transportation", CategoryType.EXPENSE, R.drawable.expense_transportation),
+        Category("Shopping", CategoryType.EXPENSE, R.drawable.expense_shopping),
+        Category("Rent", CategoryType.EXPENSE, R.drawable.expense_rent),
+        Category("Bill", CategoryType.EXPENSE, R.drawable.expense_bill),
+        Category("Healthcare", CategoryType.EXPENSE, R.drawable.expense_healthcare),
+        Category("Entertainment", CategoryType.EXPENSE, R.drawable.expense_entertainment),
+        Category("Education", CategoryType.EXPENSE, R.drawable.expense_education),
+        Category("Gifts", CategoryType.EXPENSE, R.drawable.expense_gifts),
+        Category("Investment", CategoryType.EXPENSE, R.drawable.expense_investment),
+        Category("Telephone", CategoryType.EXPENSE, R.drawable.expense_telephone),
+        Category("Tax", CategoryType.EXPENSE, R.drawable.expense_tax),
+        Category("Sports", CategoryType.EXPENSE, R.drawable.expense_sports),
+        Category("Social", CategoryType.EXPENSE, R.drawable.expense_social),
+        Category("Insurance", CategoryType.EXPENSE, R.drawable.expense_insurance),
+        Category("Electronics", CategoryType.EXPENSE, R.drawable.expense_electronics),
+        Category("Clothing", CategoryType.EXPENSE, R.drawable.expense_clothing),
+        Category("Car", CategoryType.EXPENSE, R.drawable.expense_car),
+        Category("Beauty", CategoryType.EXPENSE, R.drawable.expense_beauty),
+        Category("Baby", CategoryType.EXPENSE, R.drawable.expense_baby),
+        Category("Others", CategoryType.EXPENSE, R.drawable.expense_others),
     )
 
     val transactions = listOf(
@@ -74,26 +78,5 @@ object AppData {
             dateTime = LocalDateTime.of(2024, 10, 2, 20, 37),
             createdAt = LocalDateTime.now(),
         ),
-    )
-
-    val accountIcons = listOf(
-        R.drawable.account_cash,
-        R.drawable.account_card,
-        R.drawable.account_bank,
-        R.drawable.account_wallet,
-        R.drawable.account_savings,
-        R.drawable.account_credit_card,
-        R.drawable.account_bkash,
-        R.drawable.account_paypal,
-        R.drawable.account_visa_card,
-        R.drawable.account_mastercard,
-        R.drawable.account_amex,
-        R.drawable.account_industry,
-        R.drawable.account_coins,
-        R.drawable.account_store,
-        R.drawable.account_expenses_sheet,
-        R.drawable.account_expenses,
-        R.drawable.account_mobile_wallet,
-        R.drawable.account_safe_box
     )
 }
