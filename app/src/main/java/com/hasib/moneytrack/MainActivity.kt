@@ -1,35 +1,33 @@
 package com.hasib.moneytrack
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import com.hasib.moneytrack.screens.main.MainScreen
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import com.hasib.moneytrack.navigation.RootNavGraph
 import com.hasib.moneytrack.ui.theme.MoneyTrackTheme
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.compose.KoinContext
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MoneyTrackTheme {
-                MainScreen()
+            KoinContext {
+                MoneyTrackTheme {
+                    Surface(
+                        color = MaterialTheme.colorScheme.background,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        RootNavGraph()
+                    }
+                }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MainScreenPreview() {
-    MoneyTrackTheme {
-        MainScreen()
     }
 }

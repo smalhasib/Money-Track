@@ -1,10 +1,7 @@
 package com.hasib.moneytrack.data
 
 import com.hasib.moneytrack.models.Account
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class AppUserManager @Inject constructor() {
+class AppUserManager() {
     var defaultAccount: Account = AppData.accounts[0]
 }

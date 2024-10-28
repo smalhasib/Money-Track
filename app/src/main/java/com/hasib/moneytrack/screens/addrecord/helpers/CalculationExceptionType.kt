@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.screens.add_record.helpers
+package com.hasib.moneytrack.screens.addrecord.helpers
 
 enum class CalculationExceptionType {
     INVALID_EXPRESSION,

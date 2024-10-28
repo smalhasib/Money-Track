@@ -1,6 +1,5 @@
-package com.hasib.moneytrack.screens.add_record
+package com.hasib.moneytrack.screens.addrecord
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -18,17 +17,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.hasib.moneytrack.data.AppUserManager
-import com.hasib.moneytrack.screens.add_record.helpers.TransactionTypeSelectionBox
+import com.hasib.moneytrack.helpers.extensions.showToast
+import com.hasib.moneytrack.navigation.DefaultNavigator
+import com.hasib.moneytrack.screens.addrecord.helpers.TransactionTypeSelectionBox
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AddRecordScreen(
-    navController: NavController,
-    viewModel: AddRecordViewModel = hiltViewModel<AddRecordViewModel>()
+    viewModel: AddRecordViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var note by remember { mutableStateOf(TextFieldValue()) }
@@ -37,7 +35,7 @@ fun AddRecordScreen(
     LaunchedEffect(key1 = viewModel.error) {
         viewModel.error.collectLatest { value ->
             value?.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                context.showToast(it)
             }
         }
     }
@@ -45,10 +43,10 @@ fun AddRecordScreen(
     Scaffold(
         topBar = {
             AddRecordAppBar(
-                navController = navController,
+                cancelAction = { },
                 saveAction = {
                     if (viewModel.saveData()) {
-                        navController.popBackStack()
+
                     }
                 }
             )
@@ -90,9 +88,9 @@ fun AddRecordScreen(
 @Composable
 fun AddRecordPreview() {
     AddRecordScreen(
-        navController = rememberNavController(),
         viewModel = AddRecordViewModel(
-            appUserManager = AppUserManager()
+            appUserManager = AppUserManager(),
+            navigator = DefaultNavigator()
         )
     )
 }

@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.screens.add_record
+package com.hasib.moneytrack.screens.addrecord
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image

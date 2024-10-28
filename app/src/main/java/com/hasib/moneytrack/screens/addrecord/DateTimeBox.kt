@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.screens.add_record
+package com.hasib.moneytrack.screens.addrecord
 
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row

@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.screens.add_record.helpers
+package com.hasib.moneytrack.screens.addrecord.helpers
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

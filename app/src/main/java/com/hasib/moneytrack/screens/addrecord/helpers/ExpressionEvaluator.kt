@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.screens.add_record.helpers
+package com.hasib.moneytrack.screens.addrecord.helpers
 
 import com.hasib.moneytrack.helpers.extensions.isOperator
 import java.math.BigDecimal

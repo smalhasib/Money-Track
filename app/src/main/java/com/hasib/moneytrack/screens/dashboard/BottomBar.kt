@@ -1,5 +1,16 @@
 package com.hasib.moneytrack.screens.dashboard
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBalanceWallet
+import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.filled.Receipt
+import androidx.compose.material.icons.filled.Sell
+import androidx.compose.material.icons.outlined.AccountBalanceWallet
+import androidx.compose.material.icons.outlined.Analytics
+import androidx.compose.material.icons.outlined.Calculate
+import androidx.compose.material.icons.outlined.Receipt
+import androidx.compose.material.icons.outlined.Sell
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -12,15 +23,43 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.hasib.moneytrack.models.NavigationItem
+import com.hasib.moneytrack.navigation.Destination
+import timber.log.Timber
 
 @Composable
 fun BottomBar(navController: NavController) {
     val navigationItems = listOf(
-        BottomNavigation.Records,
-        BottomNavigation.Analysis,
-        BottomNavigation.Budget,
-        BottomNavigation.Accounts,
-        BottomNavigation.Categories
+        NavigationItem(
+            route = Destination.RecordsScreen,
+            title = "Records",
+            selectedIcon = Icons.Filled.Receipt,
+            unselectedIcon = Icons.Outlined.Receipt,
+        ),
+        NavigationItem(
+            route = Destination.AnalysisScreen,
+            title = "Analysis",
+            selectedIcon = Icons.Filled.Analytics,
+            unselectedIcon = Icons.Outlined.Analytics,
+        ),
+        NavigationItem(
+            route = Destination.BudgetsScreen,
+            title = "Budget",
+            selectedIcon = Icons.Filled.Calculate,
+            unselectedIcon = Icons.Outlined.Calculate,
+        ),
+        NavigationItem(
+            route = Destination.AccountsScreen,
+            title = "Accounts",
+            selectedIcon = Icons.Filled.AccountBalanceWallet,
+            unselectedIcon = Icons.Outlined.AccountBalanceWallet,
+        ),
+        NavigationItem(
+            route = Destination.CategoriesScreen,
+            title = "Categories",
+            selectedIcon = Icons.Filled.Sell,
+            unselectedIcon = Icons.Outlined.Sell,
+        ),
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -28,8 +67,9 @@ fun BottomBar(navController: NavController) {
     NavigationBar {
         navigationItems.forEach { screen ->
             val isSelected = currentDestination?.hierarchy?.any {
-                it.route == screen.route
+                it.route?.split('.')?.last() == screen.route.toString()
             } == true
+            Timber.d("BottomBar: isSelected: $isSelected")
 
             NavigationBarItem(
                 selected = isSelected,

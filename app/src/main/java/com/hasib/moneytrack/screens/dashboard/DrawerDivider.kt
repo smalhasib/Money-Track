@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.screens.main
+package com.hasib.moneytrack.screens.dashboard
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider

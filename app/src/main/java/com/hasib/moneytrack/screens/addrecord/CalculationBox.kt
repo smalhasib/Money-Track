@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.screens.add_record
+package com.hasib.moneytrack.screens.addrecord
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hasib.moneytrack.data.AppUserManager
+import com.hasib.moneytrack.navigation.DefaultNavigator
 
 private val numberPad = listOf(
     listOf("AC", "( )", "%", "bs"),
@@ -108,8 +109,8 @@ fun CalculationBox(
 @Composable
 private fun PadBox(
     label: String,
-    filled: Boolean = false,
     modifier: Modifier = Modifier,
+    filled: Boolean = false,
     onClick: (String) -> Unit = {}
 ) {
     val haptic = LocalHapticFeedback.current
@@ -160,5 +161,10 @@ private fun PadBox(
 @Preview(showBackground = true)
 @Composable
 fun CalculationBoxPreview() {
-    CalculationBox(viewModel = AddRecordViewModel(AppUserManager()))
+    CalculationBox(
+        viewModel = AddRecordViewModel(
+            appUserManager = AppUserManager(),
+            navigator = DefaultNavigator()
+        )
+    )
 }

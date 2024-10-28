@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.screens.add_record
+package com.hasib.moneytrack.screens.addrecord
 
 import androidx.lifecycle.ViewModel
 import com.hasib.moneytrack.data.AppUserManager
@@ -6,18 +6,18 @@ import com.hasib.moneytrack.helpers.extensions.isNumber
 import com.hasib.moneytrack.models.Account
 import com.hasib.moneytrack.models.Category
 import com.hasib.moneytrack.models.TransactionType
-import com.hasib.moneytrack.screens.add_record.helpers.CalculationException
-import com.hasib.moneytrack.screens.add_record.helpers.CalculationExceptionType
-import com.hasib.moneytrack.screens.add_record.helpers.addNumberSeparator
-import com.hasib.moneytrack.screens.add_record.helpers.getResult
-import com.hasib.moneytrack.screens.add_record.helpers.handleDelete
-import com.hasib.moneytrack.screens.add_record.helpers.isExpressionBalanced
-import com.hasib.moneytrack.screens.add_record.helpers.makeExpression
-import com.hasib.moneytrack.screens.add_record.helpers.prepareExpression
-import com.hasib.moneytrack.screens.add_record.helpers.removeNumberSeparator
-import com.hasib.moneytrack.screens.add_record.helpers.roundAnswer
-import com.hasib.moneytrack.screens.add_record.helpers.tryBalancingBrackets
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.hasib.moneytrack.navigation.Navigator
+import com.hasib.moneytrack.screens.addrecord.helpers.CalculationException
+import com.hasib.moneytrack.screens.addrecord.helpers.CalculationExceptionType
+import com.hasib.moneytrack.screens.addrecord.helpers.addNumberSeparator
+import com.hasib.moneytrack.screens.addrecord.helpers.getResult
+import com.hasib.moneytrack.screens.addrecord.helpers.handleDelete
+import com.hasib.moneytrack.screens.addrecord.helpers.isExpressionBalanced
+import com.hasib.moneytrack.screens.addrecord.helpers.makeExpression
+import com.hasib.moneytrack.screens.addrecord.helpers.prepareExpression
+import com.hasib.moneytrack.screens.addrecord.helpers.removeNumberSeparator
+import com.hasib.moneytrack.screens.addrecord.helpers.roundAnswer
+import com.hasib.moneytrack.screens.addrecord.helpers.tryBalancingBrackets
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,11 +26,10 @@ import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import javax.inject.Inject
 
-@HiltViewModel
-class AddRecordViewModel @Inject constructor(
-    appUserManager: AppUserManager
+class AddRecordViewModel(
+    appUserManager: AppUserManager,
+    private val navigator: Navigator
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(
         AddRecordUiState(
