@@ -1,15 +1,18 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     id("kotlin-parcelize")
     id("kotlin-kapt")
-    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
     namespace = "com.hasib.moneytrack"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.hasib.moneytrack"
@@ -22,6 +25,15 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        //load the values from .properties file
+        val keystoreFile = project.rootProject.file("keystore.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+
+        val apiKey = properties.getProperty("FIREBASE_WEB_CLIENT_ID") ?: ""
+
+        buildConfigField("String", "FIREBASE_WEB_CLIENT_ID", apiKey)
     }
 
     buildTypes {
@@ -42,6 +54,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.15"
@@ -76,14 +89,24 @@ dependencies {
     // Logging
     implementation(libs.timber)
 
-    // Dagger Hilt
-    implementation(libs.dagger.hilt)
-    kapt(libs.dagger.hilt.android.compiler)
-    kapt(libs.dagger.hilt.compiler)
-    implementation(libs.dagger.hilt.navigation.compose)
+    // Koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.androidx.compose.navigation)
 
     // Big Math
     implementation(libs.big.math)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+
+    // Credentials
+    implementation(libs.credentials)
+    implementation(libs.credentials.play.services)
+    implementation(libs.play.services.auth)
+    implementation(libs.googleid)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
