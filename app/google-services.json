@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "687950355055",
+    "project_id": "money-track-39b14",
+    "storage_bucket": "money-track-39b14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687950355055:android:cba030f2ba4b2bdc824b9a",
+        "android_client_info": {
+          "package_name": "com.hasib.moneytrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsFASQoiB8C5CawZ5XI2poLqBbAM-oDLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
