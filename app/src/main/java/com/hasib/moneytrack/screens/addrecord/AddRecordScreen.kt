@@ -43,12 +43,8 @@ fun AddRecordScreen(
     Scaffold(
         topBar = {
             AddRecordAppBar(
-                cancelAction = { },
-                saveAction = {
-                    if (viewModel.saveData()) {
-
-                    }
-                }
+                cancelAction = { viewModel.navigateUp() },
+                saveAction = { viewModel.saveData() }
             )
         }
     ) { innerPadding ->
@@ -63,7 +59,12 @@ fun AddRecordScreen(
             )
             AccountAndCategoryBoxRow(
                 type = uiState.transactionType,
-                viewModel = viewModel
+                fromAccount = uiState.fromAccount,
+                toAccount = uiState.toAccount,
+                category = uiState.category,
+                setFromAccount = { viewModel.setFromAccount(it) },
+                setToAccount = { viewModel.setToAccount(it) },
+                setCategory = { viewModel.setCategory(it) },
             )
             Spacer(modifier = Modifier.height(4.dp))
             NoteInputBox(
@@ -72,7 +73,9 @@ fun AddRecordScreen(
             )
             Spacer(modifier = Modifier.height(4.dp))
             CalculationBox(
-                viewModel = viewModel,
+                expression = uiState.expression,
+                result = uiState.result,
+                onPadClick = { viewModel.handleClick(it) },
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.height(4.dp))

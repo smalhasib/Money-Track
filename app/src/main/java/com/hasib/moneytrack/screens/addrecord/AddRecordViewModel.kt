@@ -1,6 +1,7 @@
 package com.hasib.moneytrack.screens.addrecord
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.hasib.moneytrack.data.AppUserManager
 import com.hasib.moneytrack.helpers.extensions.isNumber
 import com.hasib.moneytrack.models.Account
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -67,12 +69,20 @@ class AddRecordViewModel(
         _uiState.update { it.copy(dateTime = LocalDateTime.of(it.dateTime.toLocalDate(), time)) }
     }
 
-    fun saveData(): Boolean {
-        if (!validated()) {
-            return false
+    fun navigateUp() {
+        viewModelScope.launch {
+            navigator.navigateUp()
         }
-        Timber.d(_uiState.value.toString())
-        return true
+    }
+
+    fun saveData() {
+        viewModelScope.launch {
+            if (!validated()) {
+                return@launch
+            }
+            Timber.d(_uiState.value.toString())
+            navigator.navigateUp()
+        }
     }
 
     private fun validated(): Boolean {

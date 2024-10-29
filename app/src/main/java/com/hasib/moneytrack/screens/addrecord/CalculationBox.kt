@@ -20,8 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,8 +28,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hasib.moneytrack.data.AppUserManager
-import com.hasib.moneytrack.navigation.DefaultNavigator
 
 private val numberPad = listOf(
     listOf("AC", "( )", "%", "bs"),
@@ -45,11 +41,11 @@ private val operators = listOf("+", "−", "×", "÷", "=", "%", "AC", "( )", "b
 
 @Composable
 fun CalculationBox(
-    viewModel: AddRecordViewModel,
+    expression: String,
+    result: String,
+    onPadClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Top,
@@ -71,12 +67,12 @@ fun CalculationBox(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = uiState.expression,
+                    text = expression,
                     style = MaterialTheme.typography.headlineMedium,
                     maxLines = 1
                 )
                 Text(
-                    text = uiState.result,
+                    text = result,
                     style = MaterialTheme.typography.headlineSmall,
                     maxLines = 1
                 )
@@ -98,7 +94,7 @@ fun CalculationBox(
                             .weight(1f)
                             .fillMaxHeight()
                     ) {
-                        viewModel.handleClick(item)
+                        onPadClick(it)
                     }
                 }
             }
@@ -162,9 +158,8 @@ private fun PadBox(
 @Composable
 fun CalculationBoxPreview() {
     CalculationBox(
-        viewModel = AddRecordViewModel(
-            appUserManager = AppUserManager(),
-            navigator = DefaultNavigator()
-        )
+        expression = "123",
+        result = "456",
+        onPadClick = {}
     )
 }

@@ -30,7 +30,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,9 +51,13 @@ import com.hasib.moneytrack.models.TransactionType
 @Composable
 fun AccountAndCategoryBoxRow(
     type: TransactionType,
-    viewModel: AddRecordViewModel
+    fromAccount: Account,
+    toAccount: Account?,
+    category: Category?,
+    setFromAccount: (Account) -> Unit,
+    setToAccount: (Account) -> Unit,
+    setCategory: (Category) -> Unit,
 ) {
-    val uiState by viewModel.uiState.collectAsState()
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
     var isAccount by remember { mutableStateOf(false) }
@@ -63,9 +66,9 @@ fun AccountAndCategoryBoxRow(
         Row {
             AccountAndCategoryBox(
                 modifier = Modifier.weight(1f),
-                title = uiState.fromAccount.name,
+                title = fromAccount.name,
                 imageVector = Icons.Default.AccountBalanceWallet,
-                imageId = uiState.fromAccount.imageId,
+                imageId = fromAccount.imageId,
                 onClick = {
                     isAccount = true
                     showBottomSheet = true
@@ -73,17 +76,20 @@ fun AccountAndCategoryBoxRow(
             )
             Spacer(modifier = Modifier.width(4.dp))
             val (title, imageId) = when {
-                type == TransactionType.TRANSFER && uiState.toAccount != null -> (uiState.toAccount!!.name to uiState.toAccount!!.imageId)
-                type != TransactionType.TRANSFER && uiState.category != null -> (uiState.category!!.name to uiState.category!!.imageId)
+                type == TransactionType.TRANSFER -> toAccount?.let {
+                    (it.name to it.imageId)
+                } ?: ("To Account" to -1)
+
+                type != TransactionType.TRANSFER && category != null -> (category.name to category.imageId)
                 else -> ("Category" to -1)
             }
             AccountAndCategoryBox(
                 modifier = Modifier.weight(1f),
                 title = title,
-                imageVector = Icons.Default.Sell,
+                imageVector = if (type != TransactionType.TRANSFER) Icons.Default.Sell else Icons.Default.AccountBalanceWallet,
                 imageId = imageId,
                 onClick = {
-                    isAccount = false
+                    isAccount = type == TransactionType.TRANSFER
                     showBottomSheet = true
                 }
             )
@@ -105,22 +111,22 @@ fun AccountAndCategoryBoxRow(
                     items(
                         items = when {
                             isAccount -> AppData.accounts
-                            uiState.transactionType == TransactionType.INCOME -> AppData.incomeCategories
+                            type == TransactionType.INCOME -> AppData.incomeCategories
                             else -> AppData.expenseCategories
                         },
                         key = { account -> account.name }
                     ) { item ->
                         ListItem(
                             modifier = Modifier.selectable(
-                                selected = item == uiState.fromAccount,
+                                selected = item == fromAccount,
                                 onClick = {
                                     when {
-                                        isAccount -> viewModel.setFromAccount(item as Account)
-                                        uiState.transactionType == TransactionType.TRANSFER -> viewModel.setToAccount(
+                                        isAccount -> setFromAccount(item as Account)
+                                        type == TransactionType.TRANSFER -> setToAccount(
                                             item as Account
                                         )
 
-                                        else -> viewModel.setCategory(item as Category)
+                                        else -> setCategory(item as Category)
                                     }
                                     showBottomSheet = false
                                 }

@@ -48,7 +48,9 @@ fun DashboardScreen(
             bottomBar = { BottomBar(navController = navController) },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {}
+                    onClick = {
+                        viewModel.navigateTo(Destination.AddRecordScreen)
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
