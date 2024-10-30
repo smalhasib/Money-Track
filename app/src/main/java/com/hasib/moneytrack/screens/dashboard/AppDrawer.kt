@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.hasib.moneytrack.BuildConfig
 import com.hasib.moneytrack.models.NavigationItem
 import com.hasib.moneytrack.navigation.Destination
 import kotlinx.coroutines.launch
@@ -39,9 +40,9 @@ import com.hasib.moneytrack.R.string as AppText
 @Composable
 fun AppDrawer(
     drawerState: DrawerState,
-    navigateTo: (Destination) -> Unit,
     isRouteCurrentlySelected: (Destination) -> Boolean,
-    logoutAction: () -> Unit
+    onDrawerItemClick: (Destination) -> Unit,
+    onSignOutClick: () -> Unit
 ) {
     val drawerItems = listOf(
         NavigationItem(
@@ -123,7 +124,7 @@ fun AppDrawer(
                         onClick = {
                             coroutineScope.launch {
                                 drawerState.close()
-                                navigateTo(screen.route)
+                                onDrawerItemClick(screen.route)
                             }
                         },
                         icon = {
@@ -146,7 +147,7 @@ fun AppDrawer(
                 Text(text = stringResource(AppText.sign_out))
             },
             selected = false,
-            onClick = logoutAction,
+            onClick = onSignOutClick,
             icon = {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.Logout,

@@ -57,6 +57,7 @@ object AppData {
 
     val transactions = listOf(
         Expense(
+            userId = "1",
             amount = 45.00,
             category = incomeCategories.first { it.name == "Salary" },
             account = accounts.first { it.name == "Bank" },
@@ -65,6 +66,7 @@ object AppData {
             createdAt = LocalDateTime.now(),
         ),
         Transfer(
+            userId = "1",
             amount = 500.0,
             fromAccount = accounts.first { it.name == "Bank" },
             toAccount = accounts.first { it.name == "Cash" },
@@ -72,6 +74,7 @@ object AppData {
             createdAt = LocalDateTime.now(),
         ),
         Income(
+            userId = "1",
             amount = 458.00,
             category = incomeCategories.first { it.name == "Salary" },
             account = accounts.first { it.name == "Bank" },

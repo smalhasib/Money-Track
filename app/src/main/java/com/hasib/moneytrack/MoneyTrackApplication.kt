@@ -1,21 +1,16 @@
 package com.hasib.moneytrack
 
 import android.app.Application
-import com.hasib.moneytrack.di.appModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
+import com.google.firebase.Firebase
+import com.google.firebase.crashlytics.crashlytics
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
+@HiltAndroidApp
 class MoneyTrackApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        startKoin {
-            androidContext(this@MoneyTrackApplication)
-            androidLogger()
-
-            modules(appModule)
-        }
+        Firebase.crashlytics.isCrashlyticsCollectionEnabled = !BuildConfig.DEBUG
     }
 }

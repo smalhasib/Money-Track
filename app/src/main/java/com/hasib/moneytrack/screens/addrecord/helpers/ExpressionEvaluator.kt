@@ -1,5 +1,6 @@
 package com.hasib.moneytrack.screens.addrecord.helpers
 
+import com.hasib.moneytrack.helpers.extensions.isNumber
 import com.hasib.moneytrack.helpers.extensions.isOperator
 import java.math.BigDecimal
 import java.math.MathContext
@@ -365,5 +366,38 @@ fun roundAnswer(ans: String, precision: Int = 6): String {
         }
     } catch (e: NumberFormatException) {
         throw CalculationException(CalculationExceptionType.INVALID_EXPRESSION)
+    }
+}
+
+fun calculate(expression: String): String {
+    val newExp = if (isExpressionBalanced(expression)) {
+        prepareExpression(expression)
+    } else {
+        val exp = tryBalancingBrackets(expression)
+        if (isExpressionBalanced(exp)) {
+            prepareExpression(exp)
+        } else {
+            ""
+        }
+    }
+
+    try {
+        val rawResult = getResult(newExp)
+        val formattedResult = if (rawResult.isNumber()) {
+            val result = roundAnswer(rawResult, 6)
+            addNumberSeparator(result)
+        } else rawResult
+
+        return formattedResult
+    } catch (e: CalculationException) {
+        val errorMessage = when (e.msg) {
+            CalculationExceptionType.INVALID_EXPRESSION -> "Invalid Expression"
+            CalculationExceptionType.DIVIDE_BY_ZERO -> "Cannot divide by 0"
+            CalculationExceptionType.VALUE_TOO_LARGE -> "Value too large"
+            CalculationExceptionType.DOMAIN_ERROR -> "Domain error"
+        }
+        return errorMessage
+    } catch (e: Exception) {
+        return "Invalid"
     }
 }

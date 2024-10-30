@@ -9,6 +9,7 @@ enum class TransactionType {
 }
 
 sealed class Transaction {
+    abstract val userId: String
     abstract val amount: Double
     abstract val type: TransactionType
     abstract val note: String
@@ -18,6 +19,7 @@ sealed class Transaction {
 }
 
 data class Expense(
+    override val userId: String,
     override val amount: Double,
     val category: Category,
     val account: Account,
@@ -29,6 +31,7 @@ data class Expense(
 ) : Transaction()
 
 data class Income(
+    override val userId: String,
     override val amount: Double,
     val category: Category,
     val account: Account,
@@ -40,6 +43,7 @@ data class Income(
 ) : Transaction()
 
 data class Transfer(
+    override val userId: String,
     override val amount: Double,
     val fromAccount: Account,
     val toAccount: Account,

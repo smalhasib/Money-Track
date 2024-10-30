@@ -1,6 +1,7 @@
 package com.hasib.moneytrack.screens.dashboard
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.DrawerValue
@@ -10,23 +11,37 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.hasib.moneytrack.navigation.Destination
-import com.hasib.moneytrack.screens.accounts.AccountsScreen
-import com.hasib.moneytrack.screens.analysis.AnalysisScreen
-import com.hasib.moneytrack.screens.budgets.BudgetsScreen
-import com.hasib.moneytrack.screens.categories.CategoriesScreen
-import com.hasib.moneytrack.screens.records.RecordsScreen
-import org.koin.androidx.compose.koinViewModel
+import com.hasib.moneytrack.navigation.dashboardGraph
 import com.hasib.moneytrack.R.string as AppText
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DashboardScreen(
-    viewModel: DashboardViewModel = koinViewModel(),
     isRouteCurrentlySelected: (Destination) -> Boolean,
+    viewModel: DashboardViewModel = hiltViewModel(),
+) {
+    DashboardScreenContent(
+        isRouteCurrentlySelected = isRouteCurrentlySelected,
+        onDrawerItemClick = viewModel::onDrawerItemClick,
+        onSignOutClick = viewModel::onSignOutClick,
+        onAddRecordClick = viewModel::onAddRecordClick
+    )
+}
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun DashboardScreenContent(
+    isRouteCurrentlySelected: (Destination) -> Boolean,
+    onDrawerItemClick: (Destination) -> Unit,
+    onSignOutClick: () -> Unit,
+    onAddRecordClick: () -> Unit,
 ) {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -35,11 +50,9 @@ fun DashboardScreen(
         drawerContent = {
             AppDrawer(
                 drawerState = drawerState,
-                navigateTo = { destination ->
-                    viewModel.navigateTo(destination)
-                },
+                onDrawerItemClick = { destination -> onDrawerItemClick(destination) },
                 isRouteCurrentlySelected = isRouteCurrentlySelected,
-                logoutAction = { viewModel.signOut() }
+                onSignOutClick = onSignOutClick
             )
         },
         drawerState = drawerState
@@ -49,9 +62,7 @@ fun DashboardScreen(
             bottomBar = { BottomBar(navController = navController) },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {
-                        viewModel.navigateTo(Destination.AddRecordScreen)
-                    }
+                    onClick = onAddRecordClick
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
@@ -59,27 +70,25 @@ fun DashboardScreen(
                     )
                 }
             }
-        ) { _ ->
+        ) { innerPadding ->
             NavHost(
                 navController = navController,
-                startDestination = Destination.RecordsScreen
+                startDestination = Destination.RecordsScreen,
+                modifier = Modifier.padding(innerPadding)
             ) {
-                composable<Destination.RecordsScreen> {
-                    RecordsScreen()
-                }
-                composable<Destination.AnalysisScreen> {
-                    AnalysisScreen()
-                }
-                composable<Destination.BudgetsScreen> {
-                    BudgetsScreen()
-                }
-                composable<Destination.AccountsScreen> {
-                    AccountsScreen()
-                }
-                composable<Destination.CategoriesScreen> {
-                    CategoriesScreen()
-                }
+                dashboardGraph()
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DashboardScreenPreview() {
+    DashboardScreenContent(
+        isRouteCurrentlySelected = { false },
+        onDrawerItemClick = { },
+        onSignOutClick = { },
+        onAddRecordClick = { }
+    )
 }

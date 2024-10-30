@@ -6,45 +6,73 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hasib.moneytrack.data.AppUserManager
-import com.hasib.moneytrack.helpers.extensions.showToast
-import com.hasib.moneytrack.navigation.DefaultNavigator
-import com.hasib.moneytrack.screens.addrecord.helpers.TransactionTypeSelectionBox
-import kotlinx.coroutines.flow.collectLatest
-import org.koin.androidx.compose.koinViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.hasib.moneytrack.models.Account
+import com.hasib.moneytrack.models.Category
+import com.hasib.moneytrack.models.CategoryType
+import com.hasib.moneytrack.models.TransactionType
+import java.time.LocalDate
+import java.time.LocalTime
 
 @Composable
 fun AddRecordScreen(
-    viewModel: AddRecordViewModel = koinViewModel()
+    viewModel: AddRecordViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    var note by remember { mutableStateOf(TextFieldValue()) }
-    val context = LocalContext.current
 
-    LaunchedEffect(key1 = viewModel.error) {
-        viewModel.error.collectLatest { value ->
-            value?.let {
-                context.showToast(it)
-            }
-        }
-    }
+    AddRecordScreenContent(
+        transactionType = uiState.transactionType,
+        fromAccount = uiState.fromAccount,
+        toAccount = uiState.toAccount,
+        category = uiState.category,
+        expression = uiState.expression,
+        result = uiState.result,
+        onTransactionTypeChange = viewModel::setTransactionType,
+        onFromAccountChange = viewModel::setFromAccount,
+        onToAccountChange = viewModel::setToAccount,
+        onCategoryChange = viewModel::setCategory,
+        onPadClick = viewModel::handleClick,
+        onDateChange = viewModel::setDate,
+        onTimeChange = viewModel::setTime,
+        onCancelClick = viewModel::onCancelClick,
+        onSaveClick = viewModel::onSaveClick,
+    )
+}
+
+@Composable
+private fun AddRecordScreenContent(
+    transactionType: TransactionType,
+    fromAccount: Account,
+    toAccount: Account?,
+    category: Category?,
+    expression: String,
+    result: String,
+    onTransactionTypeChange: (TransactionType) -> Unit,
+    onFromAccountChange: (Account) -> Unit,
+    onToAccountChange: (Account) -> Unit,
+    onCategoryChange: (Category) -> Unit,
+    onPadClick: (String) -> Unit,
+    onDateChange: (LocalDate) -> Unit,
+    onTimeChange: (LocalTime) -> Unit,
+    onCancelClick: () -> Unit,
+    onSaveClick: () -> Unit,
+) {
+    var note by remember { mutableStateOf(TextFieldValue()) }
 
     Scaffold(
         topBar = {
             AddRecordAppBar(
-                cancelAction = { viewModel.navigateUp() },
-                saveAction = { viewModel.saveData() }
+                cancelAction = onCancelClick,
+                saveAction = onSaveClick
             )
         }
     ) { innerPadding ->
@@ -54,17 +82,17 @@ fun AddRecordScreen(
                 .padding(horizontal = 4.dp)
         ) {
             TransactionTypeSelectionBox(
-                selectedType = uiState.transactionType,
-                onSelectionChanged = { viewModel.setTransactionType(it) }
+                selectedType = transactionType,
+                onSelectionChanged = onTransactionTypeChange
             )
             AccountAndCategoryBoxRow(
-                type = uiState.transactionType,
-                fromAccount = uiState.fromAccount,
-                toAccount = uiState.toAccount,
-                category = uiState.category,
-                setFromAccount = { viewModel.setFromAccount(it) },
-                setToAccount = { viewModel.setToAccount(it) },
-                setCategory = { viewModel.setCategory(it) },
+                type = transactionType,
+                fromAccount = fromAccount,
+                toAccount = toAccount,
+                category = category,
+                setFromAccount = onFromAccountChange,
+                setToAccount = onToAccountChange,
+                setCategory = onCategoryChange,
             )
             Spacer(modifier = Modifier.height(4.dp))
             NoteInputBox(
@@ -73,15 +101,15 @@ fun AddRecordScreen(
             )
             Spacer(modifier = Modifier.height(4.dp))
             CalculationBox(
-                expression = uiState.expression,
-                result = uiState.result,
-                onPadClick = { viewModel.handleClick(it) },
+                expression = expression,
+                result = result,
+                onPadClick = onPadClick,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.height(4.dp))
             DateTimeBox(
-                onDateChange = { viewModel.setDate(it) },
-                onTimeChange = { viewModel.setTime(it) }
+                onDateChange = onDateChange,
+                onTimeChange = onTimeChange
             )
         }
     }
@@ -90,10 +118,21 @@ fun AddRecordScreen(
 @Preview(showBackground = true)
 @Composable
 fun AddRecordPreview() {
-    AddRecordScreen(
-        viewModel = AddRecordViewModel(
-            appUserManager = AppUserManager(),
-            navigator = DefaultNavigator()
-        )
+    AddRecordScreenContent(
+        transactionType = TransactionType.INCOME,
+        fromAccount = Account(name = "Cash", initialBalance = 0.0),
+        toAccount = null,
+        category = Category(name = "Salary", type = CategoryType.EXPENSE),
+        expression = "0",
+        result = "0",
+        onTransactionTypeChange = {},
+        onFromAccountChange = {},
+        onToAccountChange = {},
+        onCategoryChange = {},
+        onPadClick = {},
+        onDateChange = {},
+        onTimeChange = {},
+        onCancelClick = {},
+        onSaveClick = {},
     )
 }

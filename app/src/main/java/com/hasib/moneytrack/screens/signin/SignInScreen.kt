@@ -18,22 +18,24 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.hasib.moneytrack.R
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SignInScreen(
-    viewModel: SignInViewModel = koinViewModel()
+    viewModel: SignInViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current as Activity
 
-    SignInScreenContent {
-        viewModel.handleGoogleSignIn(context)
-    }
+    SignInScreenContent(
+        onGoogleSignInClick = {
+            viewModel.onGoogleSignInClick(context)
+        }
+    )
 }
 
 @Composable
-private fun SignInScreenContent(onClick: () -> Unit) {
+private fun SignInScreenContent(onGoogleSignInClick: () -> Unit) {
 
     Box(
         contentAlignment = Alignment.Center,
@@ -41,7 +43,7 @@ private fun SignInScreenContent(onClick: () -> Unit) {
     ) {
         ElevatedButton(
             modifier = Modifier.offset(y = 150.dp),
-            onClick = onClick
+            onClick = onGoogleSignInClick
         ) {
             Image(
                 painterResource(id = R.drawable.google),
@@ -61,5 +63,7 @@ private fun SignInScreenContent(onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun SignInPreview() {
-    SignInScreenContent { }
+    SignInScreenContent(
+        onGoogleSignInClick = {}
+    )
 }

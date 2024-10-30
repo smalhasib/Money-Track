@@ -1,38 +1,46 @@
 package com.hasib.moneytrack.screens.addrecord
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.hasib.moneytrack.base.BaseViewModel
 import com.hasib.moneytrack.data.AppUserManager
+import com.hasib.moneytrack.data.repositories.RecordRepository
 import com.hasib.moneytrack.helpers.extensions.isNumber
+import com.hasib.moneytrack.helpers.snackbar.SnackBarManager
 import com.hasib.moneytrack.models.Account
 import com.hasib.moneytrack.models.Category
+import com.hasib.moneytrack.models.Expense
+import com.hasib.moneytrack.models.Income
 import com.hasib.moneytrack.models.TransactionType
-import com.hasib.moneytrack.navigation.Navigator
-import com.hasib.moneytrack.screens.addrecord.helpers.CalculationException
-import com.hasib.moneytrack.screens.addrecord.helpers.CalculationExceptionType
+import com.hasib.moneytrack.models.Transfer
 import com.hasib.moneytrack.screens.addrecord.helpers.addNumberSeparator
-import com.hasib.moneytrack.screens.addrecord.helpers.getResult
+import com.hasib.moneytrack.screens.addrecord.helpers.calculate
 import com.hasib.moneytrack.screens.addrecord.helpers.handleDelete
-import com.hasib.moneytrack.screens.addrecord.helpers.isExpressionBalanced
 import com.hasib.moneytrack.screens.addrecord.helpers.makeExpression
-import com.hasib.moneytrack.screens.addrecord.helpers.prepareExpression
 import com.hasib.moneytrack.screens.addrecord.helpers.removeNumberSeparator
-import com.hasib.moneytrack.screens.addrecord.helpers.roundAnswer
-import com.hasib.moneytrack.screens.addrecord.helpers.tryBalancingBrackets
+import com.hasib.moneytrack.service.AccountService
+import com.hasib.moneytrack.service.LogService
+import com.hasib.moneytrack.service.NavigatorService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import javax.inject.Inject
+import com.hasib.moneytrack.R.string as AppText
 
-class AddRecordViewModel(
+@HiltViewModel
+class AddRecordViewModel @Inject constructor(
+    private val recordRepository: RecordRepository,
+    private val accountService: AccountService,
     appUserManager: AppUserManager,
-    private val navigator: Navigator
-) : ViewModel() {
+    logService: LogService,
+    navigatorService: NavigatorService,
+) : BaseViewModel(logService, navigatorService) {
+
     private val _uiState = MutableStateFlow(
         AddRecordUiState(
             fromAccount = appUserManager.defaultAccount
@@ -40,10 +48,13 @@ class AddRecordViewModel(
     )
     val uiState: StateFlow<AddRecordUiState> = _uiState.asStateFlow()
 
-    private val _error = MutableStateFlow<String?>(null)
-    val error: StateFlow<String?> = _error.asStateFlow()
-
     private var isPreviousResult = false
+
+    private val expression: String
+        get() = _uiState.value.expression
+
+    private val category: Category?
+        get() = _uiState.value.category
 
     fun setTransactionType(type: TransactionType) {
         _uiState.update { it.copy(transactionType = type) }
@@ -69,31 +80,67 @@ class AddRecordViewModel(
         _uiState.update { it.copy(dateTime = LocalDateTime.of(it.dateTime.toLocalDate(), time)) }
     }
 
-    fun navigateUp() {
-        viewModelScope.launch {
-            navigator.navigateUp()
-        }
-    }
+    fun onCancelClick() = popUp()
 
-    fun saveData() {
-        viewModelScope.launch {
-            if (!validated()) {
-                return@launch
+    fun onSaveClick() {
+        if (!isValidated()) {
+            return
+        }
+
+        launchCatching {
+            val userId = accountService.currentUserId
+            val transaction = _uiState.value.run {
+                val amount = removeNumberSeparator(result.ifEmpty { expression }).toDouble()
+                when (transactionType) {
+                    TransactionType.INCOME -> {
+                        Income(
+                            userId = userId,
+                            amount = amount,
+                            category = category!!,
+                            account = fromAccount,
+                            dateTime = dateTime,
+                            createdAt = LocalDateTime.now()
+                        )
+                    }
+
+                    TransactionType.EXPENSE -> {
+                        Expense(
+                            userId = userId,
+                            amount = amount,
+                            category = category!!,
+                            account = fromAccount,
+                            dateTime = dateTime,
+                            createdAt = LocalDateTime.now()
+                        )
+                    }
+
+                    TransactionType.TRANSFER -> {
+                        Transfer(
+                            userId = userId,
+                            amount = amount,
+                            fromAccount = fromAccount,
+                            toAccount = toAccount!!,
+                            dateTime = dateTime,
+                            createdAt = LocalDateTime.now()
+                        )
+                    }
+                }
             }
+            recordRepository.addRecord(transaction).await()
             Timber.d(_uiState.value.toString())
-            navigator.navigateUp()
+            popUp()
         }
     }
 
-    private fun validated(): Boolean {
+    private fun isValidated(): Boolean {
         return when {
-            _uiState.value.category == null -> {
-                _error.value = "Please select a category"
+            category == null -> {
+                SnackBarManager.showMessage(AppText.category_error)
                 false
             }
 
-            _uiState.value.expression.isEmpty() -> {
-                _error.value = "Please enter a valid amount"
+            expression.isEmpty() -> {
+                SnackBarManager.showMessage(AppText.amount_error)
                 false
             }
 
@@ -143,47 +190,4 @@ class AddRecordViewModel(
             }
         }
     }
-
-    private fun calculate(expression: String): String {
-        val newExp = if (isExpressionBalanced(expression)) {
-            prepareExpression(expression)
-        } else {
-            val exp = tryBalancingBrackets(expression)
-            if (isExpressionBalanced(exp)) {
-                prepareExpression(exp)
-            } else {
-                ""
-            }
-        }
-
-        try {
-            val rawResult = getResult(newExp)
-            val formattedResult = if (rawResult.isNumber()) {
-                val result = roundAnswer(rawResult, 6)
-                addNumberSeparator(result)
-            } else rawResult
-
-            return formattedResult
-        } catch (e: CalculationException) {
-            val errorMessage = when (e.msg) {
-                CalculationExceptionType.INVALID_EXPRESSION -> "Invalid Expression"
-                CalculationExceptionType.DIVIDE_BY_ZERO -> "Cannot divide by 0"
-                CalculationExceptionType.VALUE_TOO_LARGE -> "Value too large"
-                CalculationExceptionType.DOMAIN_ERROR -> "Domain error"
-            }
-            return errorMessage
-        } catch (e: Exception) {
-            return "Invalid"
-        }
-    }
 }
-
-data class AddRecordUiState(
-    val expression: String = "",
-    val result: String = "",
-    val transactionType: TransactionType = TransactionType.EXPENSE,
-    val fromAccount: Account,
-    val category: Category? = null,
-    val toAccount: Account? = null,
-    val dateTime: LocalDateTime = LocalDateTime.now()
-)
