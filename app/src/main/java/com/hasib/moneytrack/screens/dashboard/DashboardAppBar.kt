@@ -13,7 +13,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
+import com.hasib.moneytrack.R.string as AppText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,7 +23,7 @@ fun DashboardAppBar(drawerState: DrawerState) {
     val coroutineScope = rememberCoroutineScope()
     TopAppBar(
         title = {
-            Text(text = "MoneyTrack")
+            Text(text = stringResource(AppText.app_name))
         },
         navigationIcon = {
             IconButton(
@@ -33,14 +35,14 @@ fun DashboardAppBar(drawerState: DrawerState) {
             ) {
                 Icon(
                     imageVector = Icons.Default.Menu,
-                    contentDescription = "Menu"
+                    contentDescription = stringResource(AppText.menu)
                 )
             }
         },
         actions = {
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = "Search"
+                contentDescription = stringResource(AppText.search)
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(

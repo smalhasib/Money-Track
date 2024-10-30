@@ -1,5 +1,6 @@
 package com.hasib.moneytrack.screens.addrecord
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,19 +26,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hasib.moneytrack.R.string as AppText
 
 private val numberPad = listOf(
-    listOf("AC", "( )", "%", "bs"),
-    listOf("+", "7", "8", "9"),
-    listOf("−", "4", "5", "6"),
-    listOf("×", "1", "2", "3"),
-    listOf("÷", ".", "0", "=")
+    listOf(AppText.pad_ac, AppText.pad_parentheses, AppText.pad_percent, AppText.pad_backspace),
+    listOf(AppText.pad_add, AppText.pad_7, AppText.pad_8, AppText.pad_9),
+    listOf(AppText.pad_subtract, AppText.pad_4, AppText.pad_5, AppText.pad_6),
+    listOf(AppText.pad_multiply, AppText.pad_1, AppText.pad_2, AppText.pad_3),
+    listOf(AppText.pad_divide, AppText.pad_dot, AppText.pad_0, AppText.pad_equals)
 )
 
-private val operators = listOf("+", "−", "×", "÷", "=", "%", "AC", "( )", "bs")
+private val operators = listOf(
+    AppText.pad_add,
+    AppText.pad_subtract,
+    AppText.pad_multiply,
+    AppText.pad_divide,
+    AppText.pad_equals,
+    AppText.pad_percent,
+    AppText.pad_ac,
+    AppText.pad_parentheses,
+    AppText.pad_backspace
+)
 
 @Composable
 fun CalculationBox(
@@ -92,10 +105,9 @@ fun CalculationBox(
                         filled = operators.contains(item),
                         modifier = Modifier
                             .weight(1f)
-                            .fillMaxHeight()
-                    ) {
-                        onPadClick(it)
-                    }
+                            .fillMaxHeight(),
+                        onClick = onPadClick
+                    )
                 }
             }
         }
@@ -104,13 +116,13 @@ fun CalculationBox(
 
 @Composable
 private fun PadBox(
-    label: String,
+    @StringRes label: Int,
     modifier: Modifier = Modifier,
     filled: Boolean = false,
     onClick: (String) -> Unit = {}
 ) {
     val haptic = LocalHapticFeedback.current
-
+    val labelText = stringResource(label)
     Box(
         modifier = if (filled) {
             modifier
@@ -131,20 +143,20 @@ private fun PadBox(
                 .padding(8.dp)
         }.clickable {
             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-            onClick(label)
+            onClick(labelText)
         },
         contentAlignment = Alignment.Center
     ) {
-        if (label == "bs") {
+        if (label == AppText.pad_backspace) {
             Icon(
                 imageVector = Icons.AutoMirrored.Outlined.Backspace,
-                contentDescription = "Backspace",
+                contentDescription = stringResource(AppText.pad_backspace),
                 tint = MaterialTheme.colorScheme.onSecondary,
                 modifier = Modifier.size(32.dp)
             )
         } else {
             Text(
-                text = label,
+                text = labelText,
                 style = MaterialTheme.typography.headlineMedium,
                 textAlign = TextAlign.Center,
                 color = if (filled) MaterialTheme.colorScheme.onSecondary

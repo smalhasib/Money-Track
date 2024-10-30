@@ -19,44 +19,45 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.hasib.moneytrack.models.NavigationItem
 import com.hasib.moneytrack.navigation.Destination
-import timber.log.Timber
+import com.hasib.moneytrack.R.string as AppText
 
 @Composable
 fun BottomBar(navController: NavController) {
     val navigationItems = listOf(
         NavigationItem(
             route = Destination.RecordsScreen,
-            title = "Records",
+            title = AppText.records,
             selectedIcon = Icons.Filled.Receipt,
             unselectedIcon = Icons.Outlined.Receipt,
         ),
         NavigationItem(
             route = Destination.AnalysisScreen,
-            title = "Analysis",
+            title = AppText.analysis,
             selectedIcon = Icons.Filled.Analytics,
             unselectedIcon = Icons.Outlined.Analytics,
         ),
         NavigationItem(
             route = Destination.BudgetsScreen,
-            title = "Budget",
+            title = AppText.budgets,
             selectedIcon = Icons.Filled.Calculate,
             unselectedIcon = Icons.Outlined.Calculate,
         ),
         NavigationItem(
             route = Destination.AccountsScreen,
-            title = "Accounts",
+            title = AppText.accounts,
             selectedIcon = Icons.Filled.AccountBalanceWallet,
             unselectedIcon = Icons.Outlined.AccountBalanceWallet,
         ),
         NavigationItem(
             route = Destination.CategoriesScreen,
-            title = "Categories",
+            title = AppText.categories,
             selectedIcon = Icons.Filled.Sell,
             unselectedIcon = Icons.Outlined.Sell,
         ),
@@ -69,7 +70,6 @@ fun BottomBar(navController: NavController) {
             val isSelected = currentDestination?.hierarchy?.any {
                 it.route?.split('.')?.last() == screen.route.toString()
             } == true
-            Timber.d("BottomBar: isSelected: $isSelected")
 
             NavigationBarItem(
                 selected = isSelected,
@@ -81,12 +81,12 @@ fun BottomBar(navController: NavController) {
                     }
                 },
                 label = {
-                    Text(text = screen.title)
+                    Text(text = stringResource(screen.title))
                 },
                 icon = {
                     Icon(
                         imageVector = if (isSelected) screen.selectedIcon else screen.unselectedIcon,
-                        contentDescription = screen.title,
+                        contentDescription = stringResource(screen.title),
                         modifier = Modifier.rotate(
                             if (screen == navigationItems.last()) 90f else 0f
                         )

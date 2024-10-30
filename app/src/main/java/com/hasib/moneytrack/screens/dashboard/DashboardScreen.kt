@@ -20,6 +20,7 @@ import com.hasib.moneytrack.screens.budgets.BudgetsScreen
 import com.hasib.moneytrack.screens.categories.CategoriesScreen
 import com.hasib.moneytrack.screens.records.RecordsScreen
 import org.koin.androidx.compose.koinViewModel
+import com.hasib.moneytrack.R.string as AppText
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -54,7 +55,7 @@ fun DashboardScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Add Record"
+                        contentDescription = stringResource(AppText.add_record)
                     )
                 }
             }

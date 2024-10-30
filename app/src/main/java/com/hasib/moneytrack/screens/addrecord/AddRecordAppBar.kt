@@ -14,8 +14,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hasib.moneytrack.R.string as AppText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,11 +34,11 @@ fun AddRecordAppBar(
                 Row {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Close"
+                        contentDescription = stringResource(AppText.cancel)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "CANCEL",
+                        text = stringResource(AppText.cancel),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }
@@ -49,11 +51,11 @@ fun AddRecordAppBar(
                 Row {
                     Icon(
                         imageVector = Icons.Default.Save,
-                        contentDescription = "Save"
+                        contentDescription = stringResource(AppText.save)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "SAVE",
+                        text = stringResource(AppText.save),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }

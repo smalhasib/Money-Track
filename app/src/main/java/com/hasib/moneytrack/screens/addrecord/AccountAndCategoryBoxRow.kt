@@ -40,12 +40,14 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hasib.moneytrack.data.AppData
 import com.hasib.moneytrack.models.Account
 import com.hasib.moneytrack.models.Category
 import com.hasib.moneytrack.models.TransactionType
+import com.hasib.moneytrack.R.string as AppText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,10 +80,10 @@ fun AccountAndCategoryBoxRow(
             val (title, imageId) = when {
                 type == TransactionType.TRANSFER -> toAccount?.let {
                     (it.name to it.imageId)
-                } ?: ("To Account" to -1)
+                } ?: (stringResource(AppText.to_account) to -1)
 
                 type != TransactionType.TRANSFER && category != null -> (category.name to category.imageId)
-                else -> ("Category" to -1)
+                else -> (stringResource(AppText.category) to -1)
             }
             AccountAndCategoryBox(
                 modifier = Modifier.weight(1f),
@@ -201,7 +203,7 @@ private fun AccountAndCategoryBox(
                     modifier = Modifier
                         .size(28.dp)
                         .rotate(
-                            if (title == "Category") 90f else 0f
+                            if (title == stringResource(AppText.category)) 90f else 0f
                         ),
                     tint = MaterialTheme.colorScheme.secondary
                 )

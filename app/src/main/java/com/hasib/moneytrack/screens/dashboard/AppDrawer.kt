@@ -28,11 +28,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hasib.moneytrack.models.NavigationItem
 import com.hasib.moneytrack.navigation.Destination
 import kotlinx.coroutines.launch
+import com.hasib.moneytrack.R.string as AppText
 
 @Composable
 fun AppDrawer(
@@ -44,37 +46,37 @@ fun AppDrawer(
     val drawerItems = listOf(
         NavigationItem(
             route = Destination.PreferencesScreen,
-            title = "Preferences",
+            title = AppText.preferences,
             selectedIcon = Icons.Filled.Settings,
             unselectedIcon = Icons.Outlined.Settings,
         ),
         NavigationItem(
             route = Destination.ExportRecordsScreen,
-            title = "Export records",
+            title = AppText.export_records,
             selectedIcon = Icons.Filled.ImportExport,
             unselectedIcon = Icons.Outlined.ImportExport,
         ),
         NavigationItem(
             route = Destination.DeleteAndResetScreen,
-            title = "Delete & Reset",
+            title = AppText.delete_reset,
             selectedIcon = Icons.Filled.Delete,
             unselectedIcon = Icons.Outlined.Delete,
         ),
         NavigationItem(
             route = Destination.LikeMoneyTrackScreen,
-            title = "Like MoneyTrack",
+            title = AppText.like_money_track,
             selectedIcon = Icons.Filled.ThumbUp,
             unselectedIcon = Icons.Outlined.ThumbUp,
         ),
         NavigationItem(
             route = Destination.HelpScreen,
-            title = "Help",
+            title = AppText.help,
             selectedIcon = Icons.AutoMirrored.Filled.Help,
             unselectedIcon = Icons.AutoMirrored.Outlined.Help,
         ),
         NavigationItem(
             route = Destination.FeedbackScreen,
-            title = "Feedback",
+            title = AppText.feedback,
             selectedIcon = Icons.Filled.Feedback,
             unselectedIcon = Icons.Outlined.Feedback,
         ),
@@ -85,13 +87,13 @@ fun AppDrawer(
     ModalDrawerSheet {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "MoneyTrack",
+            text = stringResource(AppText.app_name),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(start = 24.dp)
         )
         Text(
-            text = "1.5.0",
+            text = "${BuildConfig.VERSION_NAME}+${BuildConfig.VERSION_CODE}",
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(start = 24.dp)
@@ -102,8 +104,8 @@ fun AppDrawer(
         )
         repeat(8) { index ->
             when (index) {
-                1 -> DrawerDivider("Management")
-                4 -> DrawerDivider("Application")
+                1 -> DrawerDivider(stringResource(AppText.management))
+                4 -> DrawerDivider(stringResource(AppText.application))
                 else -> {
                     val currentIndex = when {
                         index in 2..3 -> index - 1
@@ -115,7 +117,7 @@ fun AppDrawer(
 
                     NavigationDrawerItem(
                         label = {
-                            Text(text = drawerItems[currentIndex].title)
+                            Text(text = stringResource(drawerItems[currentIndex].title))
                         },
                         selected = isSelected,
                         onClick = {
@@ -129,7 +131,7 @@ fun AppDrawer(
                                 imageVector = if (isSelected) {
                                     drawerItems[currentIndex].selectedIcon
                                 } else drawerItems[currentIndex].unselectedIcon,
-                                contentDescription = drawerItems[currentIndex].title
+                                contentDescription = stringResource(drawerItems[currentIndex].title)
                             )
                         },
                         modifier = Modifier
@@ -141,14 +143,14 @@ fun AppDrawer(
         Spacer(modifier = Modifier.weight(1f))
         NavigationDrawerItem(
             label = {
-                Text(text = "Logout")
+                Text(text = stringResource(AppText.sign_out))
             },
             selected = false,
             onClick = logoutAction,
             icon = {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.Logout,
-                    contentDescription = "Logout"
+                    contentDescription = stringResource(AppText.sign_out)
                 )
             },
             modifier = Modifier

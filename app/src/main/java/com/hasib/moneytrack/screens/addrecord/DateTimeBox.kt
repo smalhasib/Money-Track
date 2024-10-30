@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import com.hasib.moneytrack.R.string as AppText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -81,12 +83,12 @@ fun DateTimeBox(
                             showDateDialog = false
                         }
                     ) {
-                        Text("OK")
+                        Text(stringResource(AppText.ok))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showDateDialog = false }) {
-                        Text("Cancel")
+                        Text(stringResource(AppText.cancel))
                     }
                 }
             ) {
@@ -123,12 +125,12 @@ fun DateTimeBox(
                             showTimeDialog = false
                         }
                     ) {
-                        Text("Confirm")
+                        Text(stringResource(AppText.ok))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showTimeDialog = false }) {
-                        Text("Dismiss")
+                        Text(stringResource(AppText.cancel))
                     }
                 },
                 text = {

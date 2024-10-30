@@ -1,5 +1,6 @@
 package com.hasib.moneytrack.models
 
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.outlined.Dashboard
@@ -8,7 +9,7 @@ import com.hasib.moneytrack.navigation.Destination
 
 data class NavigationItem(
     val route: Destination,
-    val title: String,
+    @StringRes val title: Int,
     val selectedIcon: ImageVector = Icons.Filled.Dashboard,
     val unselectedIcon: ImageVector = Icons.Outlined.Dashboard,
 )
