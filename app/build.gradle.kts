@@ -5,9 +5,11 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.dagger.hilt.android)
     id("kotlin-parcelize")
     id("kotlin-kapt")
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
@@ -89,11 +91,12 @@ dependencies {
     // Logging
     implementation(libs.timber)
 
-    // Koin
-    implementation(platform(libs.koin.bom))
-    implementation(libs.koin.android)
-    implementation(libs.koin.androidx.compose)
-    implementation(libs.koin.androidx.compose.navigation)
+    // Dagger Hilt
+    implementation(libs.dagger.hilt)
+    implementation(libs.firebase.crashlytics)
+    kapt(libs.dagger.hilt.android.compiler)
+    kapt(libs.dagger.hilt.compiler)
+    implementation(libs.dagger.hilt.navigation.compose)
 
     // Big Math
     implementation(libs.big.math)
@@ -101,12 +104,17 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
 
     // Credentials
     implementation(libs.credentials)
     implementation(libs.credentials.play.services)
-    implementation(libs.play.services.auth)
     implementation(libs.googleid)
+
+    // Google Play Services
+    implementation(libs.play.services.auth)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
