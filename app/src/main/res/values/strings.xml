@@ -57,4 +57,7 @@
 
     <!-- preferences -->
     <string name="preferences">Preferences</string>
+
+    <!-- records -->
+    <string name="loading_records_error">Error while loading records</string>
 </resources>
