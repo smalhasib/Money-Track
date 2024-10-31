@@ -1,6 +1,9 @@
 package com.hasib.moneytrack.screens.addrecord
 
 import com.hasib.moneytrack.base.BaseViewModel
+import com.hasib.moneytrack.common.extensions.isNumber
+import com.hasib.moneytrack.common.extensions.toTimestamp
+import com.hasib.moneytrack.common.snackbar.SnackBarManager
 import com.hasib.moneytrack.data.AppUserManager
 import com.hasib.moneytrack.data.repositories.RecordRepository
 import com.hasib.moneytrack.helpers.extensions.isNumber
@@ -18,7 +21,7 @@ import com.hasib.moneytrack.screens.addrecord.helpers.makeExpression
 import com.hasib.moneytrack.screens.addrecord.helpers.removeNumberSeparator
 import com.hasib.moneytrack.service.AccountService
 import com.hasib.moneytrack.service.LogService
-import com.hasib.moneytrack.service.NavigatorService
+import com.hasib.moneytrack.service.NavigationService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,8 +41,8 @@ class AddRecordViewModel @Inject constructor(
     private val accountService: AccountService,
     appUserManager: AppUserManager,
     logService: LogService,
-    navigatorService: NavigatorService,
-) : BaseViewModel(logService, navigatorService) {
+    navigationService: NavigationService,
+) : BaseViewModel(logService, navigationService) {
 
     private val _uiState = MutableStateFlow(
         AddRecordUiState(

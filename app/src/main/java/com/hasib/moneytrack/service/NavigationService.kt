@@ -5,7 +5,7 @@ import com.hasib.moneytrack.navigation.Destination
 import com.hasib.moneytrack.navigation.NavigationAction
 import kotlinx.coroutines.flow.Flow
 
-interface NavigatorService {
+interface NavigationService {
     val navigationActions: Flow<NavigationAction>
 
     suspend fun navigateTo(

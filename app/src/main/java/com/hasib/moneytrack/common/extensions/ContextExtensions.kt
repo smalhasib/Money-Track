@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.helpers.extensions
+package com.hasib.moneytrack.common.extensions
 
 import android.content.Context
 import android.widget.Toast

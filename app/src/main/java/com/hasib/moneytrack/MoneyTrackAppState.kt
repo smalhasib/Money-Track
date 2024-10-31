@@ -5,8 +5,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Stable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
-import com.hasib.moneytrack.helpers.snackbar.SnackBarManager
-import com.hasib.moneytrack.helpers.snackbar.SnackBarMessage.Companion.toMessage
+import com.hasib.moneytrack.common.snackbar.SnackBarManager
+import com.hasib.moneytrack.common.snackbar.SnackBarMessage.Companion.toMessage
 import com.hasib.moneytrack.navigation.Destination
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull

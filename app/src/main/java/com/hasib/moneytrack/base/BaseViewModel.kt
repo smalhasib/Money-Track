@@ -2,18 +2,18 @@ package com.hasib.moneytrack.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hasib.moneytrack.helpers.snackbar.SnackBarManager
-import com.hasib.moneytrack.helpers.snackbar.SnackBarMessage.Companion.toSnackBarMessage
+import com.hasib.moneytrack.common.snackbar.SnackBarManager
+import com.hasib.moneytrack.common.snackbar.SnackBarMessage.Companion.toSnackBarMessage
 import com.hasib.moneytrack.navigation.Destination
 import com.hasib.moneytrack.service.LogService
-import com.hasib.moneytrack.service.NavigatorService
+import com.hasib.moneytrack.service.NavigationService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 open class BaseViewModel(
     private val logService: LogService,
-    private val navigatorService: NavigatorService
+    private val navigationService: NavigationService
 ) : ViewModel() {
     fun launchCatching(snackBar: Boolean = true, block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.launch(
@@ -28,25 +28,25 @@ open class BaseViewModel(
 
     fun navigateAndPopUp(destination: Destination, popUp: Destination) {
         viewModelScope.launch {
-            navigatorService.navigateAndPopUp(destination, popUp)
+            navigationService.navigateAndPopUp(destination, popUp)
         }
     }
 
     fun navigate(destination: Destination) {
         viewModelScope.launch {
-            navigatorService.navigateTo(destination)
+            navigationService.navigateTo(destination)
         }
     }
 
     fun popUp() {
         viewModelScope.launch {
-            navigatorService.navigateUp()
+            navigationService.navigateUp()
         }
     }
 
     suspend fun clearAndNavigate(destination: Destination) {
         viewModelScope.launch {
-            navigatorService.clearAndNavigate(destination)
+            navigationService.clearAndNavigate(destination)
         }
     }
 }

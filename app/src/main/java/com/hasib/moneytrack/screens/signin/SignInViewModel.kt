@@ -5,16 +5,16 @@ import com.hasib.moneytrack.base.BaseViewModel
 import com.hasib.moneytrack.navigation.Destination
 import com.hasib.moneytrack.service.AccountService
 import com.hasib.moneytrack.service.LogService
-import com.hasib.moneytrack.service.NavigatorService
+import com.hasib.moneytrack.service.NavigationService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val accountService: AccountService,
-    navigatorService: NavigatorService,
+    navigationService: NavigationService,
     logService: LogService,
-) : BaseViewModel(logService, navigatorService) {
+) : BaseViewModel(logService, navigationService) {
 
     fun onGoogleSignInClick(context: Context) {
         launchCatching {

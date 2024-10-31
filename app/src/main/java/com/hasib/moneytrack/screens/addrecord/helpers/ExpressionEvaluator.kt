@@ -1,7 +1,7 @@
 package com.hasib.moneytrack.screens.addrecord.helpers
 
-import com.hasib.moneytrack.helpers.extensions.isNumber
-import com.hasib.moneytrack.helpers.extensions.isOperator
+import com.hasib.moneytrack.common.extensions.isNumber
+import com.hasib.moneytrack.common.extensions.isOperator
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode

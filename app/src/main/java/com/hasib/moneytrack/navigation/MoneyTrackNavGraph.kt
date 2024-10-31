@@ -9,7 +9,7 @@ import com.hasib.moneytrack.screens.dashboard.DashboardScreen
 import com.hasib.moneytrack.screens.preferences.PreferencesScreen
 import com.hasib.moneytrack.screens.signin.SignInScreen
 
-fun NavGraphBuilder.moneyTrackGraph() {
+fun NavGraphBuilder.moneyTrackNavGraph() {
     navigation<Destination.AuthGraph>(
         startDestination = Destination.SignInScreen,
     ) {

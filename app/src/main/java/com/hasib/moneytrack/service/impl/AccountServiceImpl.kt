@@ -28,8 +28,7 @@ class AccountServiceImpl @Inject constructor(
 
     override val hasUser: Boolean = firebaseAuth.currentUser != null
 
-    override val currentUser: Flow<User>
-        get() = callbackFlow {
+    override val currentUser: Flow<User> = callbackFlow {
             val listener = FirebaseAuth.AuthStateListener { auth ->
                 this.trySend(auth.currentUser?.let { User(it.uid) } ?: User())
             }

@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.helpers.snackbar
+package com.hasib.moneytrack.common.snackbar
 
 import android.content.res.Resources
 import androidx.annotation.StringRes

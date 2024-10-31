@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.helpers.snackbar
+package com.hasib.moneytrack.common.snackbar
 
 import androidx.annotation.StringRes
 import kotlinx.coroutines.flow.MutableStateFlow

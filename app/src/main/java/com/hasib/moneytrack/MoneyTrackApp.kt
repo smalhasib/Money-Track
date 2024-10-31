@@ -19,11 +19,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.hasib.moneytrack.helpers.extensions.ObserveAsEvents
-import com.hasib.moneytrack.helpers.snackbar.SnackBarManager
+import com.hasib.moneytrack.common.extensions.ObserveAsEvents
+import com.hasib.moneytrack.common.snackbar.SnackBarManager
 import com.hasib.moneytrack.navigation.Destination
 import com.hasib.moneytrack.navigation.NavigationAction
-import com.hasib.moneytrack.navigation.moneyTrackGraph
+import com.hasib.moneytrack.navigation.moneyTrackNavGraph
 import com.hasib.moneytrack.ui.theme.MoneyTrackTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -90,7 +90,7 @@ private fun MoneyTrackAppContent(
                     navController = appState.navController,
                     startDestination = startDestination,
                 ) {
-                    moneyTrackGraph()
+                    moneyTrackNavGraph()
                 }
             }
         }

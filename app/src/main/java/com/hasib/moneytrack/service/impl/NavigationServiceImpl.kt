@@ -3,7 +3,7 @@ package com.hasib.moneytrack.service.impl
 import androidx.navigation.NavOptionsBuilder
 import com.hasib.moneytrack.navigation.Destination
 import com.hasib.moneytrack.navigation.NavigationAction
-import com.hasib.moneytrack.service.NavigatorService
+import com.hasib.moneytrack.service.NavigationService
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import timber.log.Timber
 import javax.inject.Inject
 
-class NavigatorServiceImpl @Inject constructor() : NavigatorService {
+class NavigationServiceImpl @Inject constructor() : NavigationService {
     private val _navigationActions = Channel<NavigationAction>()
     override val navigationActions: Flow<NavigationAction> = _navigationActions.receiveAsFlow()
 

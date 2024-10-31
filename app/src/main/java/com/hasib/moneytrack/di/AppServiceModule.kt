@@ -1,7 +1,7 @@
 package com.hasib.moneytrack.di
 
-import com.hasib.moneytrack.service.NavigatorService
-import com.hasib.moneytrack.service.impl.NavigatorServiceImpl
+import com.hasib.moneytrack.service.NavigationService
+import com.hasib.moneytrack.service.impl.NavigationServiceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,5 +14,5 @@ abstract class AppServiceModule {
 
     @Binds
     @Singleton
-    abstract fun provideNavigatorService(impl: NavigatorServiceImpl): NavigatorService
+    abstract fun provideNavigatorService(impl: NavigationServiceImpl): NavigationService
 }

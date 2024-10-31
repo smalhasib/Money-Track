@@ -1,4 +1,4 @@
-package com.hasib.moneytrack.helpers.extensions
+package com.hasib.moneytrack.common.extensions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

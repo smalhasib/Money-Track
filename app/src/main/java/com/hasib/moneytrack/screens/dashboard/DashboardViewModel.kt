@@ -4,7 +4,7 @@ import com.hasib.moneytrack.base.BaseViewModel
 import com.hasib.moneytrack.navigation.Destination
 import com.hasib.moneytrack.service.AccountService
 import com.hasib.moneytrack.service.LogService
-import com.hasib.moneytrack.service.NavigatorService
+import com.hasib.moneytrack.service.NavigationService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -12,8 +12,8 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(
     private val accountService: AccountService,
     logService: LogService,
-    navigatorService: NavigatorService,
-) : BaseViewModel(logService, navigatorService) {
+    navigationService: NavigationService,
+) : BaseViewModel(logService, navigationService) {
 
     fun onDrawerItemClick(destination: Destination) = navigate(destination)
 

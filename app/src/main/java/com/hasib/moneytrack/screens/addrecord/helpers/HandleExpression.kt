@@ -1,10 +1,10 @@
 package com.hasib.moneytrack.screens.addrecord.helpers
 
-import com.hasib.moneytrack.helpers.extensions.isBinaryOperator
-import com.hasib.moneytrack.helpers.extensions.isNumber
-import com.hasib.moneytrack.helpers.extensions.isOperator
-import com.hasib.moneytrack.helpers.extensions.isRightUnaryOperator
-import com.hasib.moneytrack.helpers.extensions.isUnaryOperator
+import com.hasib.moneytrack.common.extensions.isBinaryOperator
+import com.hasib.moneytrack.common.extensions.isNumber
+import com.hasib.moneytrack.common.extensions.isOperator
+import com.hasib.moneytrack.common.extensions.isRightUnaryOperator
+import com.hasib.moneytrack.common.extensions.isUnaryOperator
 
 fun makeExpression(
     expression: String,
