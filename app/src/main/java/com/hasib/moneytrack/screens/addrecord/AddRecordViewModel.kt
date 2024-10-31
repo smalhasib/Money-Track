@@ -55,11 +55,25 @@ class AddRecordViewModel @Inject constructor(
     }
 
     fun setFromAccount(account: Account) {
-        _uiState.update { it.copy(fromAccount = account) }
+        _uiState.update {
+            if (account == it.toAccount) {
+                SnackBarManager.showMessage(AppText.same_account_error)
+                return
+            }
+
+            it.copy(fromAccount = account)
+        }
     }
 
     fun setToAccount(account: Account) {
-        _uiState.update { it.copy(toAccount = account) }
+        _uiState.update {
+            if (account == it.fromAccount) {
+                SnackBarManager.showMessage(AppText.same_account_error)
+                return
+            }
+
+            it.copy(toAccount = account)
+        }
     }
 
     fun setCategory(category: Category) {

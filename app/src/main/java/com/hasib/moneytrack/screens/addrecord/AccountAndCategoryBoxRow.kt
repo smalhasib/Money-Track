@@ -62,7 +62,8 @@ fun AccountAndCategoryBoxRow(
 ) {
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
-    var isAccount by remember { mutableStateOf(false) }
+    var isFromAccount by remember { mutableStateOf(false) }
+    var isToAccount by remember { mutableStateOf(false) }
 
     Column {
         Row {
@@ -72,7 +73,7 @@ fun AccountAndCategoryBoxRow(
                 imageVector = Icons.Default.AccountBalanceWallet,
                 imageId = fromAccount.imageId,
                 onClick = {
-                    isAccount = true
+                    isFromAccount = true
                     showBottomSheet = true
                 }
             )
@@ -91,7 +92,7 @@ fun AccountAndCategoryBoxRow(
                 imageVector = if (type != TransactionType.TRANSFER) Icons.Default.Sell else Icons.Default.AccountBalanceWallet,
                 imageId = imageId,
                 onClick = {
-                    isAccount = type == TransactionType.TRANSFER
+                    isToAccount = type == TransactionType.TRANSFER
                     showBottomSheet = true
                 }
             )
@@ -112,7 +113,7 @@ fun AccountAndCategoryBoxRow(
                 LazyColumn {
                     items(
                         items = when {
-                            isAccount -> AppData.accounts
+                            isFromAccount || isToAccount -> AppData.accounts
                             type == TransactionType.INCOME -> AppData.incomeCategories
                             else -> AppData.expenseCategories
                         },
@@ -123,13 +124,15 @@ fun AccountAndCategoryBoxRow(
                                 selected = item == fromAccount,
                                 onClick = {
                                     when {
-                                        isAccount -> setFromAccount(item as Account)
-                                        type == TransactionType.TRANSFER -> setToAccount(
+                                        isFromAccount -> setFromAccount(item as Account)
+                                        isToAccount -> setToAccount(
                                             item as Account
                                         )
 
                                         else -> setCategory(item as Category)
                                     }
+                                    isFromAccount = false
+                                    isToAccount = false
                                     showBottomSheet = false
                                 }
                             ),
