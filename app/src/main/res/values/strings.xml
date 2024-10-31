@@ -31,6 +31,7 @@
 
     <!-- add record -->
     <string name="category_error">Please select a category</string>
+    <string name="to_account_error">Please select a account to transfer</string>
     <string name="amount_error">Please enter a valid amount</string>
     <string name="to_account">To Account</string>
     <string name="category">Category</string>
@@ -54,6 +55,7 @@
     <string name="pad_dot">.</string>
     <string name="pad_0">0</string>
     <string name="pad_equals">=</string>
+    <string name="same_account_error">From account and to account cannot be the same</string>
 
     <!-- preferences -->
     <string name="preferences">Preferences</string>

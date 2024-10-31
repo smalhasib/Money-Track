@@ -94,13 +94,17 @@ class AddRecordViewModel @Inject constructor(
 
     fun onCancelClick() = popUp()
 
+    private fun showLoading(value: Boolean) {
+        _uiState.update { it.copy(isLoading = value) }
+    }
+
     fun onSaveClick() {
         if (!isValidated()) {
             return
         }
 
         launchCatching {
-            val userId = accountService.currentUserId
+            showLoading(true)
             val transaction = _uiState.value.run {
                 val amount = removeNumberSeparator(result.ifEmpty { expression }).toDouble()
                 when (transactionType) {
@@ -135,8 +139,9 @@ class AddRecordViewModel @Inject constructor(
                     }
                 }
             }
-            recordRepository.addRecord(transaction).await()
+            recordsRepository.addRecord(transaction).await()
             Timber.d(_uiState.value.toString())
+            showLoading(false)
             popUp()
         }
     }

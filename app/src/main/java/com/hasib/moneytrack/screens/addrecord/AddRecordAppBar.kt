@@ -22,6 +22,7 @@ import com.hasib.moneytrack.R.string as AppText
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddRecordAppBar(
+    disableSaveButton: Boolean,
     cancelAction: () -> Unit,
     saveAction: () -> Unit
 ) {
@@ -46,7 +47,8 @@ fun AddRecordAppBar(
         },
         actions = {
             TextButton(
-                onClick = saveAction
+                onClick = saveAction,
+                enabled = !disableSaveButton
             ) {
                 Row {
                     Icon(
@@ -68,6 +70,7 @@ fun AddRecordAppBar(
 @Composable
 fun AddRecordAppBarPreview() {
     AddRecordAppBar(
+        disableSaveButton = false,
         cancelAction = { },
         saveAction = { }
     )
