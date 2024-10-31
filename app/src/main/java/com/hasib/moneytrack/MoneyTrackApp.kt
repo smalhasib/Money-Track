@@ -1,6 +1,8 @@
 package com.hasib.moneytrack
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.content.res.Resources
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -26,10 +28,14 @@ import com.hasib.moneytrack.ui.theme.MoneyTrackTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
+@SuppressLint("SourceLockedOrientationActivity")
 @Composable
 fun MoneyTrackApp(
     viewModel: MoneyTrackViewModel = hiltViewModel(),
 ) {
+    val activity = (LocalContext.current as Activity)
+    activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
     MoneyTrackAppContent(
         hasUser = viewModel.hasUser,
         navigationActions = viewModel.navigationActions
