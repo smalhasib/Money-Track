@@ -50,12 +50,6 @@ class AddRecordViewModel @Inject constructor(
 
     private var isPreviousResult = false
 
-    private val expression: String
-        get() = _uiState.value.expression
-
-    private val category: Category?
-        get() = _uiState.value.category
-
     fun setTransactionType(type: TransactionType) {
         _uiState.update { it.copy(transactionType = type) }
     }
@@ -133,18 +127,25 @@ class AddRecordViewModel @Inject constructor(
     }
 
     private fun isValidated(): Boolean {
-        return when {
-            category == null -> {
-                SnackBarManager.showMessage(AppText.category_error)
-                false
-            }
+        _uiState.value.run {
+            return when {
+                transactionType != TransactionType.TRANSFER && category == null -> {
+                    SnackBarManager.showMessage(AppText.category_error)
+                    false
+                }
 
-            expression.isEmpty() -> {
-                SnackBarManager.showMessage(AppText.amount_error)
-                false
-            }
+                transactionType == TransactionType.TRANSFER && toAccount == null -> {
+                    SnackBarManager.showMessage(AppText.to_account_error)
+                    false
+                }
 
-            else -> true
+                expression.isEmpty() -> {
+                    SnackBarManager.showMessage(AppText.amount_error)
+                    false
+                }
+
+                else -> true
+            }
         }
     }
 

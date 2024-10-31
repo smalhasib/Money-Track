@@ -105,7 +105,9 @@ fun CalculationBox(
                         filled = operators.contains(item),
                         modifier = Modifier
                             .weight(1f)
-                            .fillMaxHeight(),
+                            .fillMaxHeight()
+                            .padding(1.dp)
+                            .clip(RoundedCornerShape(8.dp)),
                         onClick = onPadClick
                     )
                 }
@@ -126,21 +128,15 @@ private fun PadBox(
     Box(
         modifier = if (filled) {
             modifier
-                .padding(1.dp)
-                .clip(RoundedCornerShape(8.dp))
                 .background(MaterialTheme.colorScheme.secondary)
-                .padding(8.dp)
         } else {
             modifier
-                .padding(1.dp)
-                .clip(RoundedCornerShape(8.dp))
                 .background(MaterialTheme.colorScheme.background)
                 .border(
                     width = 2.dp,
                     color = MaterialTheme.colorScheme.outline,
                     shape = RoundedCornerShape(8.dp)
                 )
-                .padding(8.dp)
         }.clickable {
             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
             onClick(labelText)
