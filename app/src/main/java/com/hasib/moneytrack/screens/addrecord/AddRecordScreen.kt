@@ -40,6 +40,7 @@ fun AddRecordScreen(
         onFromAccountChange = viewModel::setFromAccount,
         onToAccountChange = viewModel::setToAccount,
         onCategoryChange = viewModel::setCategory,
+        onNoteChange = viewModel::setNote,
         onPadClick = viewModel::handleClick,
         onDateChange = viewModel::setDate,
         onTimeChange = viewModel::setTime,
@@ -60,6 +61,7 @@ private fun AddRecordScreenContent(
     onFromAccountChange: (Account) -> Unit,
     onToAccountChange: (Account) -> Unit,
     onCategoryChange: (Category) -> Unit,
+    onNoteChange: (String) -> Unit,
     onPadClick: (String) -> Unit,
     onDateChange: (LocalDate) -> Unit,
     onTimeChange: (LocalTime) -> Unit,
@@ -111,6 +113,10 @@ private fun AddRecordScreenContent(
                 onDateChange = onDateChange,
                 onTimeChange = onTimeChange
             )
+                        onValueChange = {
+                            note = it
+                            onNoteChange(it.text)
+                        }
         }
     }
 }
@@ -129,6 +135,7 @@ fun AddRecordPreview() {
         onFromAccountChange = {},
         onToAccountChange = {},
         onCategoryChange = {},
+        onNoteChange = {},
         onPadClick = {},
         onDateChange = {},
         onTimeChange = {},

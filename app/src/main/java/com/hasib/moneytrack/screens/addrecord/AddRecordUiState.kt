@@ -13,4 +13,6 @@ data class AddRecordUiState(
     val category: Category? = null,
     val toAccount: Account? = null,
     val dateTime: LocalDateTime = LocalDateTime.now()
+    val note: String = "",
+    val dateTime: LocalDateTime = LocalDateTime.now(),
 )

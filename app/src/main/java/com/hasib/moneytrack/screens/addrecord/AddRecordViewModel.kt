@@ -80,6 +80,10 @@ class AddRecordViewModel @Inject constructor(
         _uiState.update { it.copy(category = category) }
     }
 
+    fun setNote(note: String) {
+        _uiState.update { it.copy(note = note) }
+    }
+
     fun setDate(date: LocalDate) {
         _uiState.update { it.copy(dateTime = LocalDateTime.of(date, it.dateTime.toLocalTime())) }
     }
