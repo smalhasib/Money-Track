@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hasib.moneytrack.common.extensions.toLocalDateTime
 import com.hasib.moneytrack.data.AppData
 import java.time.format.DateTimeFormatter
 
@@ -30,7 +31,7 @@ fun RecordsScreen() {
         SummeryBox()
         Spacer(modifier = Modifier.height(16.dp))
         LazyColumn {
-            items(AppData.transactions.groupBy { it.dateTime.toLocalDate() }
+            items(AppData.transactions.groupBy { it.dateTime.toLocalDateTime().toLocalDate() }
                 .toList()) { (date, transactions) ->
                 Text(
                     text = date.format(DateTimeFormatter.ofPattern("MMM dd, EEEE")),

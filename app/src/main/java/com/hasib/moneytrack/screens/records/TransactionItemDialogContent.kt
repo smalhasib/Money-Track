@@ -38,6 +38,7 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hasib.moneytrack.R
+import com.hasib.moneytrack.common.extensions.toLocalDateTime
 import com.hasib.moneytrack.data.AppData
 import com.hasib.moneytrack.models.Expense
 import com.hasib.moneytrack.models.Income
@@ -144,7 +145,7 @@ fun TransactionItemDialogContent(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = transaction.dateTime.format(
+                    text = transaction.dateTime.toLocalDateTime().format(
                         DateTimeFormatter.ofPattern("MMM dd, yyyy hh:mm a")
                     ),
                     textAlign = TextAlign.Center,

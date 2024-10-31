@@ -1,5 +1,6 @@
 package com.hasib.moneytrack.screens.addrecord
 
+import com.google.firebase.Timestamp
 import com.hasib.moneytrack.base.BaseViewModel
 import com.hasib.moneytrack.common.extensions.isNumber
 import com.hasib.moneytrack.common.extensions.toTimestamp
@@ -19,7 +20,6 @@ import com.hasib.moneytrack.screens.addrecord.helpers.calculate
 import com.hasib.moneytrack.screens.addrecord.helpers.handleDelete
 import com.hasib.moneytrack.screens.addrecord.helpers.makeExpression
 import com.hasib.moneytrack.screens.addrecord.helpers.removeNumberSeparator
-import com.hasib.moneytrack.service.AccountService
 import com.hasib.moneytrack.service.LogService
 import com.hasib.moneytrack.service.NavigationService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,8 +37,7 @@ import com.hasib.moneytrack.R.string as AppText
 
 @HiltViewModel
 class AddRecordViewModel @Inject constructor(
-    private val recordRepository: RecordRepository,
-    private val accountService: AccountService,
+    private val recordsRepository: RecordsRepository,
     appUserManager: AppUserManager,
     logService: LogService,
     navigationService: NavigationService,
@@ -109,34 +108,31 @@ class AddRecordViewModel @Inject constructor(
                 when (transactionType) {
                     TransactionType.INCOME -> {
                         Income(
-                            userId = userId,
                             amount = amount,
                             category = category!!,
                             account = fromAccount,
-                            dateTime = dateTime,
-                            createdAt = LocalDateTime.now()
+                            dateTime = dateTime.toTimestamp(),
+                            createdAt = Timestamp.now()
                         )
                     }
 
                     TransactionType.EXPENSE -> {
                         Expense(
-                            userId = userId,
                             amount = amount,
                             category = category!!,
                             account = fromAccount,
-                            dateTime = dateTime,
-                            createdAt = LocalDateTime.now()
+                            dateTime = dateTime.toTimestamp(),
+                            createdAt = Timestamp.now()
                         )
                     }
 
                     TransactionType.TRANSFER -> {
                         Transfer(
-                            userId = userId,
                             amount = amount,
                             fromAccount = fromAccount,
                             toAccount = toAccount!!,
-                            dateTime = dateTime,
-                            createdAt = LocalDateTime.now()
+                            dateTime = dateTime.toTimestamp(),
+                            createdAt = Timestamp.now()
                         )
                     }
                 }

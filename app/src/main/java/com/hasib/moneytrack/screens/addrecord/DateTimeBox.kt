@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hasib.moneytrack.helpers.extensions.toLocalDate
+import com.hasib.moneytrack.common.extensions.toLocalDate
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZonedDateTime

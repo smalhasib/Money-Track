@@ -1,6 +1,7 @@
 package com.hasib.moneytrack.data
 
 import com.hasib.moneytrack.R
+import com.hasib.moneytrack.common.extensions.toTimestamp
 import com.hasib.moneytrack.models.Account
 import com.hasib.moneytrack.models.Category
 import com.hasib.moneytrack.models.CategoryType
@@ -62,24 +63,24 @@ object AppData {
             category = incomeCategories.first { it.name == "Salary" },
             account = accounts.first { it.name == "Bank" },
             note = "Shirt",
-            dateTime = LocalDateTime.of(2024, 10, 5, 11, 3),
-            createdAt = LocalDateTime.now(),
+            dateTime = LocalDateTime.of(2024, 10, 5, 11, 3).toTimestamp(),
+            createdAt = LocalDateTime.now().toTimestamp(),
         ),
         Transfer(
             userId = "1",
             amount = 500.0,
             fromAccount = accounts.first { it.name == "Bank" },
             toAccount = accounts.first { it.name == "Cash" },
-            dateTime = LocalDateTime.of(2024, 10, 2, 20, 42),
-            createdAt = LocalDateTime.now(),
+            dateTime = LocalDateTime.of(2024, 10, 2, 20, 42).toTimestamp(),
+            createdAt = LocalDateTime.now().toTimestamp(),
         ),
         Income(
             userId = "1",
             amount = 458.00,
             category = incomeCategories.first { it.name == "Salary" },
             account = accounts.first { it.name == "Bank" },
-            dateTime = LocalDateTime.of(2024, 10, 2, 20, 37),
-            createdAt = LocalDateTime.now(),
+            dateTime = LocalDateTime.of(2024, 10, 2, 20, 37).toTimestamp(),
+            createdAt = LocalDateTime.now().toTimestamp(),
         ),
     )
 }

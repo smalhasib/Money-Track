@@ -13,7 +13,12 @@ data class Account(
     val currentBalance: Double = initialBalance,
     @DrawableRes
     override val imageId: Int = -1
-) : BasicData()
+) : BasicData() {
+    constructor() : this(
+        name = "",
+        initialBalance = 0.0
+    )
+}
 
 enum class CategoryType {
     INCOME,
@@ -25,4 +30,9 @@ data class Category(
     val type: CategoryType,
     @DrawableRes
     override val imageId: Int = -1
-) : BasicData()
+) : BasicData() {
+    constructor() : this(
+        name = "",
+        type = CategoryType.EXPENSE
+    )
+}
